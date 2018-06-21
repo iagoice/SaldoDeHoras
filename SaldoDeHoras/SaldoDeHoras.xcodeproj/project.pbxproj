@@ -99,13 +99,10 @@
 		3755507E20DAD615009DCA86 /* SaldoDeHoras */ = {
 			isa = PBXGroup;
 			children = (
-				3755507F20DAD615009DCA86 /* AppDelegate.swift */,
-				3755508120DAD615009DCA86 /* ViewController.swift */,
-				3755508320DAD615009DCA86 /* Main.storyboard */,
-				3755508920DAD616009DCA86 /* Assets.xcassets */,
-				3755508B20DAD616009DCA86 /* LaunchScreen.storyboard */,
-				3755508E20DAD616009DCA86 /* Info.plist */,
-				3755508620DAD615009DCA86 /* SaldoDeHoras.xcdatamodeld */,
+				375550B220DADDA3009DCA86 /* Support Files */,
+				375550B320DADDC6009DCA86 /* Storyboards */,
+				375550B120DADD95009DCA86 /* Controller */,
+				375550B020DADD83009DCA86 /* View */,
 			);
 			path = SaldoDeHoras;
 			sourceTree = "<group>";
@@ -126,6 +123,41 @@
 				375550A420DAD616009DCA86 /* Info.plist */,
 			);
 			path = SaldoDeHorasUITests;
+			sourceTree = "<group>";
+		};
+		375550B020DADD83009DCA86 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		375550B120DADD95009DCA86 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3755508120DAD615009DCA86 /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		375550B220DADDA3009DCA86 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				3755508E20DAD616009DCA86 /* Info.plist */,
+				3755507F20DAD615009DCA86 /* AppDelegate.swift */,
+				3755508620DAD615009DCA86 /* SaldoDeHoras.xcdatamodeld */,
+				3755508920DAD616009DCA86 /* Assets.xcassets */,
+			);
+			path = "Support Files";
+			sourceTree = "<group>";
+		};
+		375550B320DADDC6009DCA86 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				3755508B20DAD616009DCA86 /* LaunchScreen.storyboard */,
+				3755508320DAD615009DCA86 /* Main.storyboard */,
+			);
+			path = Storyboards;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
