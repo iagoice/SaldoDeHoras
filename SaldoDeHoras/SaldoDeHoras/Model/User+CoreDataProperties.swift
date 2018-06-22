@@ -2,7 +2,7 @@
 //  User+CoreDataProperties.swift
 //  SaldoDeHoras
 //
-//  Created by Iago Mordente Rezende Leão Corrêa on 21/06/18.
+//  Created by Iago Mordente Rezende Leão Corrêa on 22/06/18.
 //  Copyright © 2018 Iago Mordente Rezende Leão Corrêa. All rights reserved.
 //
 //
@@ -18,5 +18,24 @@ extension User {
     }
 
     @NSManaged public var name: String?
-    @NSManaged public var checks: [NSDate]?
+    @NSManaged public var checks: NSDate?
+    @NSManaged public var checksofuser: NSSet?
+
+}
+
+// MARK: Generated accessors for checksofuser
+extension User {
+
+    @objc(addChecksofuserObject:)
+    @NSManaged public func addToChecksofuser(_ value: Check)
+
+    @objc(removeChecksofuserObject:)
+    @NSManaged public func removeFromChecksofuser(_ value: Check)
+
+    @objc(addChecksofuser:)
+    @NSManaged public func addToChecksofuser(_ values: NSSet)
+
+    @objc(removeChecksofuser:)
+    @NSManaged public func removeFromChecksofuser(_ values: NSSet)
+
 }
