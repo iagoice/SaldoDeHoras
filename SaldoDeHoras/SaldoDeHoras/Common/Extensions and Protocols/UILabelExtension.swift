@@ -1,5 +1,5 @@
 //
-//  UIViewExtension.swift
+//  UILabelExtension.swift
 //  SaldoDeHoras
 //
 //  Created by Iago Mordente Rezende Leão Corrêa on 22/06/18.
@@ -9,8 +9,8 @@
 import Foundation
 import UIKit
 
-extension UIView {
-    func roundView(_ value:CGFloat) {
+extension UILabel {
+    func roundLabel(_ value: CGFloat) {
         self.layer.cornerRadius = value
     }
 }

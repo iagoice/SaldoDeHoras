@@ -10,9 +10,11 @@ import Foundation
 import UIKit
 import CoreData
 
+
 class LoginViewController: UIViewController {
     
     @IBOutlet weak var loginView: LoginView!
+    public var userInfoDelegate: UserInfoDelegate?
     
     private var emptyAlert: UIAlertController = {
         let alert = UIAlertController(title: "Preencha o campo usuário", message: "Campo usuário não pode estar vazio.", preferredStyle: .alert)
@@ -20,41 +22,36 @@ class LoginViewController: UIViewController {
         alert.addAction(action)
         return alert
     }()
-    private var index: Int?
-    private var users: [User]?
     
     @IBAction func pressLogin(_ sender: Any) {
         let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        var users: [User]
+        var index: Int?
         
         do {
-            self.users = try PersistenceService.context.fetch(fetchRequest)
+            users = try PersistenceService.context.fetch(fetchRequest)
             guard let name = loginView.userTextField.text else { return }
             if !name.isEmpty {
-                self.index = users!.index(where: { (user) -> Bool in
+                index = users.index(where: { (user) -> Bool in
                     return user.name! == name
                 })
-                if self.index != nil {
-                    self.performSegue(withIdentifier: "loginToHome", sender: self)
+                let homeViewController = storyboard.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+                self.userInfoDelegate = homeViewController
+                if index != nil {
+                    self.userInfoDelegate?.userInfo(user: users[index!])
+                    self.present(homeViewController, animated: true)
                 } else {
                     let user = User(context: PersistenceService.context)
                     user.name = name
                     PersistenceService.saveContext()
-                    self.index = users!.count
-                    self.users = try PersistenceService.context.fetch(fetchRequest)
-                    self.performSegue(withIdentifier: "loginToHome", sender: self)
+                    index = users.count
+                    self.userInfoDelegate?.userInfo(user: user)
+                    self.present(homeViewController, animated: true)
                 }
             } else {
                 self.present(emptyAlert, animated: true)
             }
         } catch {}
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destination = segue.destination as? HomeViewController {
-            if let safeUsers = users, let safeIndex = index {
-                destination.user = safeUsers[safeIndex]
-                destination.index = safeIndex
-            }
-        }
     }
 }
