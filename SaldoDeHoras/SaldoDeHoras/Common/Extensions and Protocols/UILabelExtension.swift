@@ -12,5 +12,6 @@ import UIKit
 extension UILabel {
     func roundLabel(_ value: CGFloat) {
         self.layer.cornerRadius = value
+        self.clipsToBounds = true
     }
 }

@@ -16,6 +16,16 @@ class HomeView: UIView {
     @IBOutlet weak var checksScrollView: UIScrollView!
     @IBOutlet weak var checksView: UIView!
     @IBOutlet weak var animationConstraint: NSLayoutConstraint!
+    @IBOutlet weak var workedHoursLabel: UILabel! {
+        didSet {
+            if let safeHours = hours {
+                self.workedHoursLabel.text = "Horas trabalhadas hoje: \(safeHours)"
+            } else {
+                self.workedHoursLabel.text = "Horas trabalhadas hoje: "
+            }
+        }
+    }
+    var hours: Double?
     
     func setup(user: User?) {
         self.checkButton.roundButton(value: 50.0)
@@ -51,11 +61,12 @@ class HomeView: UIView {
         let minute = calendar.component(.minute, from: time as Date)
         label.text = "\(hour):\(minute)"
         self.checksScrollView.addSubview(label)
-        let x = self.checksScrollView.frame.minX + 100 * CGFloat(index)
-        label.frame = CGRect(x: x, y: self.checksScrollView.frame.minY - self.checksScrollView.frame.height/2, width: 100, height: self.checksScrollView.frame.height)
+        let x = self.checksScrollView.frame.minX + 100 * CGFloat(index) + 10
+        label.frame = CGRect(x: x, y: self.checksScrollView.frame.minY - self.checksScrollView.frame.height/2, width: 100, height: self.checksScrollView.frame.height/2)
         label.textColor = UIColor.white
         label.backgroundColor = UIColor.black
         label.roundLabel(label.frame.size.height/2)
+        label.textAlignment = .center
     }
     
     func addGestures() {
@@ -98,4 +109,12 @@ class HomeView: UIView {
         
         return sortedChecks
     }
+}
+
+extension HomeView: HoursDelegate {
+    func getHours(hours: Double?) {
+        self.hours = hours
+    }
+    
+    
 }

@@ -39,16 +39,3 @@ extension User {
     @NSManaged public func removeFromChecksofuser(_ values: NSSet)
 
 }
-
-// MARK: Generated accessors for optionsOfUser
-extension User {
-    
-    @objc(addOptionsOfUserObject:)
-    @NSManaged public func addToOptionsOfUser(_ value: Options)
-    
-    @objc(removeOptionsOfUserObject:)
-    @NSManaged public func removeFromOptionsOfUser(_ value: Options)
-
-    
-}
-

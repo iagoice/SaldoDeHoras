@@ -1,5 +1,5 @@
 //
-//  UserInfoProtocol.swift
+//  IntExtension.swift
 //  SaldoDeHoras
 //
 //  Created by Iago Mordente Rezende Leão Corrêa on 25/06/18.
@@ -8,10 +8,8 @@
 
 import Foundation
 
-protocol UserInfoDelegate {
-    func userInfo(user: User)
-}
-
-protocol HoursDelegate {
-    func getHours(hours: Double?)
+extension Int {
+    func isEven () -> Bool {
+        return self % 2 == 0
+    }
 }

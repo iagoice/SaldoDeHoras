@@ -36,22 +36,36 @@ class LoginViewController: UIViewController {
                 index = users.index(where: { (user) -> Bool in
                     return user.name! == name
                 })
-                let homeViewController = storyboard.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-                self.userInfoDelegate = homeViewController
+                let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! NavigationController
+                self.userInfoDelegate = navigationController
                 if index != nil {
                     self.userInfoDelegate?.userInfo(user: users[index!])
-                    self.present(homeViewController, animated: true)
+                    self.present(navigationController, animated: true)
                 } else {
                     let user = User(context: PersistenceService.context)
+                    let option = Options(context: PersistenceService.context)
+                    option.checkInTime = "08:00"
+                    option.weekWorkHours = 40
+                    option.workWeek = "Sexta"
                     user.name = name
+                    user.optionsOfUser = option
                     PersistenceService.saveContext()
                     index = users.count
                     self.userInfoDelegate?.userInfo(user: user)
-                    self.present(homeViewController, animated: true)
+                    self.present(navigationController, animated: true)
                 }
             } else {
                 self.present(emptyAlert, animated: true)
             }
+        } catch {}
+    }
+
+    @IBAction func resetUsers(_ sender: UIButton) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        do {
+            try PersistenceService.context.execute(deleteRequest)
+            PersistenceService.saveContext()
         } catch {}
     }
 }

@@ -1,5 +1,5 @@
 //
-//  User+CoreDataClass.swift
+//  Check+CoreDataClass.swift
 //  SaldoDeHoras
 //
 //  Created by Iago Mordente Rezende Leão Corrêa on 26/06/18.
@@ -10,7 +10,7 @@
 import Foundation
 import CoreData
 
-
-public class User: NSManagedObject {
+@objc(Check)
+public class Check: NSManagedObject {
 
 }
