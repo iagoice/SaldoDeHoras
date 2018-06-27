@@ -10,28 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SaldoDeHoras/Controller/HomeViewController.swift"
-            timestampString = "551733248.1947269"
+            timestampString = "551810490.157303"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
-            landmarkName = "checkIn(sender:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SaldoDeHoras/Controller/OptionsViewController.swift"
-            timestampString = "551733248.195316"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "169"
-            endingLineNumber = "169"
-            landmarkName = "pickerView(_:didSelectRow:inComponent:)"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
+            landmarkName = "calculateWeekWorkedHours()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

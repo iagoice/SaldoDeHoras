@@ -165,16 +165,23 @@
                                     <action selector="openOptions:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uqI-Vd-ZX9"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pZs-j6-9VS">
-                                <rect key="frame" x="60" y="164" width="255" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PZo-fC-Sgf">
+                                <rect key="frame" x="313" y="104" width="42" height="30"/>
+                                <state key="normal" title="Hours"/>
+                                <connections>
+                                    <action selector="openHours:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VgY-Up-e7z"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ayd-W7-rzt">
+                                <rect key="frame" x="254" y="159" width="101" height="30"/>
+                                <state key="normal" title="Create Checks"/>
+                                <connections>
+                                    <action selector="createChecks:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aRp-DT-vWy"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="pZs-j6-9VS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="60" id="2HL-HP-284"/>
                             <constraint firstItem="8Me-Rt-HpT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="150" id="6sl-nO-fxH"/>
                             <constraint firstItem="M3P-jt-XRX" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Bcw-HM-PfP"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="SpA-hU-LAh" secondAttribute="trailing" constant="40" id="G3x-b8-Mqt"/>
@@ -185,11 +192,12 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="8Me-Rt-HpT" secondAttribute="trailing" constant="30" id="Rvp-6x-1MJ"/>
                             <constraint firstItem="SpA-hU-LAh" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="W5N-5t-7Zp"/>
                             <constraint firstItem="g2s-Ud-TE4" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="WQ9-oT-1Y0"/>
-                            <constraint firstItem="pZs-j6-9VS" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="100" id="XrQ-aw-kUW"/>
-                            <constraint firstItem="pZs-j6-9VS" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ipB-qy-Uwk"/>
+                            <constraint firstItem="ayd-W7-rzt" firstAttribute="trailing" secondItem="PZo-fC-Sgf" secondAttribute="trailing" id="dfa-p7-NG9"/>
+                            <constraint firstItem="ayd-W7-rzt" firstAttribute="top" secondItem="PZo-fC-Sgf" secondAttribute="bottom" constant="25" id="jYF-51-HQl"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="PZo-fC-Sgf" secondAttribute="trailing" constant="20" id="qdJ-01-b7f"/>
                             <constraint firstItem="Q5S-S4-Hel" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="reY-hc-PDy"/>
                             <constraint firstItem="g2s-Ud-TE4" firstAttribute="bottom" secondItem="8Me-Rt-HpT" secondAttribute="bottom" id="sst-Kv-4Fm"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="pZs-j6-9VS" secondAttribute="trailing" constant="60" id="yfF-tW-KLy"/>
+                            <constraint firstItem="PZo-fC-Sgf" firstAttribute="centerY" secondItem="M3P-jt-XRX" secondAttribute="centerY" id="wZQ-jn-d9a"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <connections>
@@ -197,7 +205,6 @@
                             <outlet property="checkButton" destination="Q5S-S4-Hel" id="vEo-2W-ddJ"/>
                             <outlet property="checksScrollView" destination="HmT-MK-5Yl" id="Ri4-gM-Pvs"/>
                             <outlet property="checksView" destination="SpA-hU-LAh" id="jUK-V7-Y4I"/>
-                            <outlet property="workedHoursLabel" destination="pZs-j6-9VS" id="AQc-2u-s6W"/>
                         </connections>
                     </view>
                     <navigationItem key="navigationItem" id="ZOP-Ug-4ko"/>
@@ -249,6 +256,64 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xYE-bf-Go7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="473" y="207"/>
+        </scene>
+        <!--Hours View Controller-->
+        <scene sceneID="4rQ-Ff-R3Z">
+            <objects>
+                <viewController storyboardIdentifier="HoursViewController" id="Zc6-vE-mhu" customClass="HoursViewController" customModule="SaldoDeHoras" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="iSY-7E-6a7" customClass="HoursView" customModule="SaldoDeHoras" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hours" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DgY-FD-lUM">
+                                <rect key="frame" x="164.5" y="211" width="46" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Horas da semana" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qSf-0G-pRh">
+                                <rect key="frame" x="121" y="352" width="133.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hours" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5pj-NF-RCF">
+                                <rect key="frame" x="166" y="423" width="43.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Horas do dia" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B0w-PY-TCo">
+                                <rect key="frame" x="139.5" y="140" width="97" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="5pj-NF-RCF" firstAttribute="top" secondItem="qSf-0G-pRh" secondAttribute="bottom" constant="50" id="2b0-q7-9QN"/>
+                            <constraint firstItem="B0w-PY-TCo" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="DWv-s0-M2b"/>
+                            <constraint firstItem="qSf-0G-pRh" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="Kyy-kD-Rdh"/>
+                            <constraint firstItem="5pj-NF-RCF" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="Lfs-i5-itL"/>
+                            <constraint firstItem="DgY-FD-lUM" firstAttribute="top" secondItem="B0w-PY-TCo" secondAttribute="bottom" constant="50" id="O6P-uj-TVA"/>
+                            <constraint firstItem="B0w-PY-TCo" firstAttribute="top" secondItem="gwo-L7-lJH" secondAttribute="top" constant="120" id="SCf-18-tPz"/>
+                            <constraint firstItem="qSf-0G-pRh" firstAttribute="top" secondItem="DgY-FD-lUM" secondAttribute="bottom" constant="120" id="Yya-0d-FY4"/>
+                            <constraint firstItem="DgY-FD-lUM" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="sHC-Qc-rkq"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="gwo-L7-lJH"/>
+                        <connections>
+                            <outlet property="dayHoursLabel" destination="DgY-FD-lUM" id="Pio-TZ-OZG"/>
+                            <outlet property="weekHoursLabel" destination="5pj-NF-RCF" id="ajs-k7-Q4v"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <outlet property="hoursView" destination="iSY-7E-6a7" id="WNT-yP-oSU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2x6-hU-pa7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="473" y="874"/>
         </scene>
     </scenes>
 </document>

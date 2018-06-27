@@ -16,16 +16,6 @@ class HomeView: UIView {
     @IBOutlet weak var checksScrollView: UIScrollView!
     @IBOutlet weak var checksView: UIView!
     @IBOutlet weak var animationConstraint: NSLayoutConstraint!
-    @IBOutlet weak var workedHoursLabel: UILabel! {
-        didSet {
-            if let safeHours = hours {
-                self.workedHoursLabel.text = "Horas trabalhadas hoje: \(safeHours)"
-            } else {
-                self.workedHoursLabel.text = "Horas trabalhadas hoje: "
-            }
-        }
-    }
-    var hours: Double?
     
     func setup(user: User?) {
         self.checkButton.roundButton(value: 50.0)
@@ -111,10 +101,3 @@ class HomeView: UIView {
     }
 }
 
-extension HomeView: HoursDelegate {
-    func getHours(hours: Double?) {
-        self.hours = hours
-    }
-    
-    
-}

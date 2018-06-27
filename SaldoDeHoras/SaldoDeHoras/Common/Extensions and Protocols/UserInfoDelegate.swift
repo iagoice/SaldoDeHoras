@@ -13,5 +13,5 @@ protocol UserInfoDelegate {
 }
 
 protocol HoursDelegate {
-    func getHours(hours: Double?)
+    func getHours(dayHours: Int?, weekHours: Int?)
 }

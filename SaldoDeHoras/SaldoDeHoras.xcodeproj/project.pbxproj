@@ -15,6 +15,8 @@
 		3738086220E29EF9008FFDA9 /* Check+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3738085E20E29EF9008FFDA9 /* Check+CoreDataProperties.swift */; };
 		3738086320E29EF9008FFDA9 /* Options+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3738085F20E29EF9008FFDA9 /* Options+CoreDataClass.swift */; };
 		3738086420E29EF9008FFDA9 /* Options+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3738086020E29EF9008FFDA9 /* Options+CoreDataProperties.swift */; };
+		3738086620E2CB4A008FFDA9 /* HoursViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3738086520E2CB4A008FFDA9 /* HoursViewController.swift */; };
+		37382CA920E3D7B600EAF623 /* HoursView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37382CA820E3D7B600EAF623 /* HoursView.swift */; };
 		3755508020DAD615009DCA86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3755507F20DAD615009DCA86 /* AppDelegate.swift */; };
 		3755508220DAD615009DCA86 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3755508120DAD615009DCA86 /* HomeViewController.swift */; };
 		3755508520DAD615009DCA86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3755508320DAD615009DCA86 /* Main.storyboard */; };
@@ -61,6 +63,8 @@
 		3738085E20E29EF9008FFDA9 /* Check+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Check+CoreDataProperties.swift"; path = "../../Check+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3738085F20E29EF9008FFDA9 /* Options+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Options+CoreDataClass.swift"; path = "../../Options+CoreDataClass.swift"; sourceTree = "<group>"; };
 		3738086020E29EF9008FFDA9 /* Options+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Options+CoreDataProperties.swift"; path = "../../Options+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		3738086520E2CB4A008FFDA9 /* HoursViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursViewController.swift; sourceTree = "<group>"; };
+		37382CA820E3D7B600EAF623 /* HoursView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursView.swift; sourceTree = "<group>"; };
 		3755507C20DAD615009DCA86 /* SaldoDeHoras.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SaldoDeHoras.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3755507F20DAD615009DCA86 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3755508120DAD615009DCA86 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -168,6 +172,7 @@
 			children = (
 				375550C220DC1C7C009DCA86 /* LoginView.swift */,
 				375550BE20DC1162009DCA86 /* HomeView.swift */,
+				37382CA820E3D7B600EAF623 /* HoursView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -178,6 +183,7 @@
 				375550C020DC1C18009DCA86 /* LoginViewController.swift */,
 				3755508120DAD615009DCA86 /* HomeViewController.swift */,
 				3738083120E26C10008FFDA9 /* OptionsViewController.swift */,
+				3738086520E2CB4A008FFDA9 /* HoursViewController.swift */,
 				3738083F20E26FBC008FFDA9 /* NavigationController.swift */,
 			);
 			path = Controller;
@@ -375,6 +381,7 @@
 				3738086220E29EF9008FFDA9 /* Check+CoreDataProperties.swift in Sources */,
 				3755508220DAD615009DCA86 /* HomeViewController.swift in Sources */,
 				375550B720DBDE81009DCA86 /* PersistenceService.swift in Sources */,
+				37382CA920E3D7B600EAF623 /* HoursView.swift in Sources */,
 				3755508820DAD615009DCA86 /* SaldoDeHoras.xcdatamodeld in Sources */,
 				3738085B20E29EDC008FFDA9 /* User+CoreDataClass.swift in Sources */,
 				37FF8D4620E162D400800879 /* Constants.swift in Sources */,
@@ -389,6 +396,7 @@
 				3738086120E29EF9008FFDA9 /* Check+CoreDataClass.swift in Sources */,
 				375550C320DC1C7C009DCA86 /* LoginView.swift in Sources */,
 				3738084020E26FBC008FFDA9 /* NavigationController.swift in Sources */,
+				3738086620E2CB4A008FFDA9 /* HoursViewController.swift in Sources */,
 				37A5831320DD7CCF0054A002 /* UILabelExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
