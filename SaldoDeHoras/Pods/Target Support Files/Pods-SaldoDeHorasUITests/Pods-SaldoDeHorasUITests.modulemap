@@ -1,0 +1,6 @@
+framework module Pods_SaldoDeHorasUITests {
+  umbrella header "Pods-SaldoDeHorasUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

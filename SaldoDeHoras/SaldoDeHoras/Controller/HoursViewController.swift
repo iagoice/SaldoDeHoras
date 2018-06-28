@@ -12,10 +12,14 @@ import UIKit
 class HoursViewController: UIViewController {
     var weekHours: Int?
     var dayHours: Int?
-
+    var user: User?
+    
     @IBOutlet var hoursView: HoursView!
     
     override func viewDidLoad() {
+        if let user = self.user, let options = user.optionsOfUser, let weekWorkHours = self.weekHours {
+            self.weekHours = weekWorkHours - Int(options.weekWorkHours)
+        }
         self.hoursView.setup(dayHours: self.dayHours, weekHours: self.weekHours)
     }
     
@@ -33,5 +37,11 @@ extension HoursViewController: HoursDelegate {
         if let safeHours = weekHours {
             self.weekHours = safeHours
         }
+    }
+}
+
+extension HoursViewController: UserInfoDelegate {
+    func userInfo(user: User) {
+        self.user = user
     }
 }

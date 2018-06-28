@@ -76,7 +76,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ais-19-9uH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1990" y="206"/>
+            <point key="canvasLocation" x="-266" y="-563"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Fdx-t1-wTs">
@@ -92,7 +92,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zXR-PC-d6p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1113" y="206"/>
+            <point key="canvasLocation" x="-266" y="103"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -214,7 +214,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-266" y="207"/>
+            <point key="canvasLocation" x="-266" y="801"/>
         </scene>
         <!--Options View Controller-->
         <scene sceneID="h8v-ot-6I6">
@@ -255,7 +255,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xYE-bf-Go7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="473" y="207"/>
+            <point key="canvasLocation" x="-961" y="800"/>
         </scene>
         <!--Hours View Controller-->
         <scene sceneID="4rQ-Ff-R3Z">
@@ -266,25 +266,25 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hours" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DgY-FD-lUM">
-                                <rect key="frame" x="164.5" y="211" width="46" height="21"/>
+                                <rect key="frame" x="164.5" y="111" width="46" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Horas da semana" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qSf-0G-pRh">
-                                <rect key="frame" x="121" y="352" width="133.5" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Saldo de horas da semana" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qSf-0G-pRh">
+                                <rect key="frame" x="87" y="182" width="202" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hours" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5pj-NF-RCF">
-                                <rect key="frame" x="166" y="423" width="43.5" height="21"/>
+                                <rect key="frame" x="166" y="223" width="43.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Horas do dia" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B0w-PY-TCo">
-                                <rect key="frame" x="139.5" y="140" width="97" height="21"/>
+                                <rect key="frame" x="139.5" y="70" width="97" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -292,13 +292,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="5pj-NF-RCF" firstAttribute="top" secondItem="qSf-0G-pRh" secondAttribute="bottom" constant="50" id="2b0-q7-9QN"/>
+                            <constraint firstItem="5pj-NF-RCF" firstAttribute="top" secondItem="qSf-0G-pRh" secondAttribute="bottom" constant="20" id="2b0-q7-9QN"/>
                             <constraint firstItem="B0w-PY-TCo" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="DWv-s0-M2b"/>
                             <constraint firstItem="qSf-0G-pRh" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="Kyy-kD-Rdh"/>
                             <constraint firstItem="5pj-NF-RCF" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="Lfs-i5-itL"/>
-                            <constraint firstItem="DgY-FD-lUM" firstAttribute="top" secondItem="B0w-PY-TCo" secondAttribute="bottom" constant="50" id="O6P-uj-TVA"/>
-                            <constraint firstItem="B0w-PY-TCo" firstAttribute="top" secondItem="gwo-L7-lJH" secondAttribute="top" constant="120" id="SCf-18-tPz"/>
-                            <constraint firstItem="qSf-0G-pRh" firstAttribute="top" secondItem="DgY-FD-lUM" secondAttribute="bottom" constant="120" id="Yya-0d-FY4"/>
+                            <constraint firstItem="DgY-FD-lUM" firstAttribute="top" secondItem="B0w-PY-TCo" secondAttribute="bottom" constant="20" id="O6P-uj-TVA"/>
+                            <constraint firstItem="B0w-PY-TCo" firstAttribute="top" secondItem="gwo-L7-lJH" secondAttribute="top" constant="50" id="SCf-18-tPz"/>
+                            <constraint firstItem="qSf-0G-pRh" firstAttribute="top" secondItem="DgY-FD-lUM" secondAttribute="bottom" constant="50" id="Yya-0d-FY4"/>
                             <constraint firstItem="DgY-FD-lUM" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="sHC-Qc-rkq"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="gwo-L7-lJH"/>
@@ -313,7 +313,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2x6-hU-pa7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="473" y="874"/>
+            <point key="canvasLocation" x="434" y="799"/>
         </scene>
     </scenes>
 </document>

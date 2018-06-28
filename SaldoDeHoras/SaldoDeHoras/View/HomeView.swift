@@ -22,6 +22,7 @@ class HomeView: UIView {
         self.updateCheckLabels(user: user)
         self.addGestures()
         self.backgroundColor = UIColor.orange
+        
     }
     
     func updateCheckLabels (user: User?) {
@@ -51,7 +52,7 @@ class HomeView: UIView {
         let minute = calendar.component(.minute, from: time as Date)
         label.text = "\(hour):\(minute)"
         self.checksScrollView.addSubview(label)
-        let x = self.checksScrollView.frame.minX + 100 * CGFloat(index) + 10
+        let x = self.checksScrollView.frame.minX + 100 * CGFloat(index) + 10*CGFloat(index)
         label.frame = CGRect(x: x, y: self.checksScrollView.frame.minY - self.checksScrollView.frame.height/2, width: 100, height: self.checksScrollView.frame.height/2)
         label.textColor = UIColor.white
         label.backgroundColor = UIColor.black

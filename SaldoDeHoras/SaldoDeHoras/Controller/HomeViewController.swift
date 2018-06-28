@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import UserNotifications
 
 class HomeViewController: UIViewController {
     
@@ -33,7 +34,8 @@ class HomeViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
     }
     
-    // Button actions -----------------------
+    // Button actions ------------------------
+    
     @IBAction func checkIn(sender: Any) {
         let today = Date()
         if let safeUser = self.user {
@@ -43,6 +45,23 @@ class HomeViewController: UIViewController {
             safeUser.addToChecksofuser(check)
             PersistenceService.saveContext()
             self.homeView.updateCheckLabels(user: user)
+            if self.homeView.sortChecks(checks: safeUser.checksofuser!).count == 2 {
+                let today = Date()
+                let calendar = NSCalendar.current
+                var content = UNMutableNotificationContent()
+                content.title = "Hora de voltar do almoço"
+                content.sound = UNNotificationSound.default()
+                let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: Date(timeInterval: 45*60, since: today))
+                let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+                let request = UNNotificationRequest(identifier: "lunch", content: content, trigger: trigger)
+                UNUserNotificationCenter.current().add(request) { (error) in
+                    if let hasError = error {
+                        let alert = UIAlertController(title: "Erro ao agendar notificação de entrada", message: hasError.localizedDescription, preferredStyle: .alert)
+                        self.present(alert, animated: true)
+                    }
+                }
+            }
+            
         }
     }
     
@@ -73,14 +92,19 @@ class HomeViewController: UIViewController {
         }
         self.navigationController?.pushViewController(optionsViewController, animated: true)
     }
+    
     @IBAction func openHours(_ sender: UIButton) {
         let today = Date()
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let hoursViewController = storyboard.instantiateViewController(withIdentifier: "HoursViewController") as! HoursViewController
         self.hoursDelegate = hoursViewController
+        self.userDelegate = hoursViewController
         let dayWorkedHours = self.calculateDayWorkedHours(date: today)
         let weekWorkedHours = self.calculateWeekWorkedHours()
         self.hoursDelegate.getHours(dayHours: dayWorkedHours, weekHours: weekWorkedHours)
+        if let user = self.user {
+            self.userDelegate?.userInfo(user: user)
+        }
         self.navigationController?.pushViewController(hoursViewController, animated: true)
     }
     
@@ -92,7 +116,7 @@ class HomeViewController: UIViewController {
         self.calculateWeekWorkedHours()
     }
     
-    //Auxiliary methods------------------------
+    //Auxiliary methods ------------------------
     
     func calculateDayWorkedHours(date: Date) -> Int {
         guard let checks = self.user?.checksofuser else { return 0 }
@@ -118,7 +142,7 @@ class HomeViewController: UIViewController {
     
     func calculateWeekWorkedHours() -> Int {
         var weekHoursWorked = 0
-        let weekDays = self.getWeekDays()
+        let weekDays = Date.getWeekDays()
         for day in weekDays {
             let weekDayHoursWorked = self.calculateDayWorkedHours(date: day)
             weekHoursWorked += weekDayHoursWorked
@@ -126,16 +150,7 @@ class HomeViewController: UIViewController {
         return weekHoursWorked
     }
     
-    func getWeekDays() -> [Date] {
-        let calendar = Calendar.current
-        let today = calendar.startOfDay(for: Date())
-        let dayOfWeek = calendar.component(.weekday, from: today)
-        let weekdays = calendar.range(of: .weekday, in: .weekOfYear, for: today)!
-        let days = (weekdays.lowerBound ..< weekdays.upperBound)
-            .compactMap { calendar.date(byAdding: .day, value: $0 - dayOfWeek, to: today) }
-            .filter { !calendar.isDateInWeekend($0) }
-        return days
-    }
+    
     
     func filterChecks (checks: NSSet, filter: Filter, date: Date) -> [Check] {
         var filteredChecks = [Check]()

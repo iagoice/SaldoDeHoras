@@ -21,4 +21,15 @@ extension Date {
         
         return todayDay == checkDay && todayMonth == checkMonth && todayYear == checkYear
     }
+    
+    static func getWeekDays() -> [Date] {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let dayOfWeek = calendar.component(.weekday, from: today)
+        let weekdays = calendar.range(of: .weekday, in: .weekOfYear, for: today)!
+        let days = (weekdays.lowerBound ..< weekdays.upperBound)
+            .compactMap { calendar.date(byAdding: .day, value: $0 - dayOfWeek, to: today) }
+            .filter { !calendar.isDateInWeekend($0) }
+        return days
+    }
 }

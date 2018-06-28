@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import CoreData
+import UserNotifications
 
 class OptionsViewController: UIViewController {
     var user: User?
@@ -20,6 +21,7 @@ class OptionsViewController: UIViewController {
         optionsTableView.delegate = self
         optionsTableView.dataSource = self
         self.setupTableView()
+        self.setupBackButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -30,6 +32,58 @@ class OptionsViewController: UIViewController {
         self.setupPickers()
     }
     
+    func setupBackButton() {
+        let backButton = UIBarButtonItem(title: "‹Back", style: .plain, target: self, action: #selector(saveOptionsAndPopViewController))
+        self.navigationItem.hidesBackButton = true
+        self.navigationItem.leftBarButtonItem = backButton
+    }
+    
+    @objc func saveOptionsAndPopViewController() {
+        let calendar = NSCalendar.current
+        let picker = self.optionsTableView.cellForRow(at: IndexPath(row: 0, section: 0))?.subviews[3] as! UIDatePicker
+        let hour = String(calendar.component(.hour, from: picker.date))
+        let minute = String(calendar.component(.minute, from: picker.date))
+        guard let user = self.user else {
+            self.navigationController?.popViewController(animated: true)
+            return
+        }
+        guard let options = user.optionsOfUser else {
+            self.navigationController?.popViewController(animated: true)
+            return
+        }
+        guard var checkInTime = options.checkInTime else {
+            self.navigationController?.popViewController(animated: true)
+            return
+        }
+        let week = Date.getWeekDays()
+        if hour != String(checkInTime.split(separator: ":")[0]) ||
+           minute != String(checkInTime.split(separator: ":")[1]) {
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["checkIn"])
+            for weekDay in week {
+                let content = UNMutableNotificationContent()
+                content.title = "Está na hora de bater o ponto!"
+                content.sound = UNNotificationSound.default()
+                var components = DateComponents()
+                components.month = calendar.component(.weekOfMonth, from: weekDay)
+                components.day = calendar.component(.day, from: weekDay)
+                components.year = calendar.component(.year, from: weekDay)
+                components.hour = calendar.component(.hour, from: picker.date)
+                components.minute = calendar.component(.minute, from: picker.date)
+                let triggerDate = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+                let request = UNNotificationRequest(identifier: "checkIn", content: content, trigger: triggerDate)
+                UNUserNotificationCenter.current().add(request) { (error) in
+                    if let hasError = error {
+                        let alert = UIAlertController(title: "Erro ao agendar notificação de entrada", message: hasError.localizedDescription, preferredStyle: .alert)
+                        self.present(alert, animated: true)
+                    }
+                }
+            }
+        }
+        self.user?.optionsOfUser?.checkInTime = "\(hour):\(minute)"
+        PersistenceService.saveContext()
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     func setupPickers() {
         if let safeUser = self.user, let options = safeUser.optionsOfUser {
             for index in 0...2 {
@@ -37,9 +91,13 @@ class OptionsViewController: UIViewController {
                 case 0:
                     let cell = self.optionsTableView.cellForRow(at: IndexPath(row: index, section: 0))
                     let timePicker = cell?.subviews[3] as! UIDatePicker
-                    let formatter = DateFormatter()
-                    formatter.dateFormat = "hh:mm"
-                    let date = formatter.date(from: options.checkInTime!)
+                    let checkInComponents = options.checkInTime!.split(separator: ":")
+                    var components = DateComponents()
+                    let calendar = NSCalendar.current
+                    components.hour = Int(checkInComponents[0])
+                    components.minute = Int(checkInComponents[1])
+                    let date = calendar.date(from: components)
+                    
                     timePicker.date = date!
                 case 1:
                     let cell = self.optionsTableView.cellForRow(at: IndexPath(row: index, section: 0))
