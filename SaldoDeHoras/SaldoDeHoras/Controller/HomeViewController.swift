@@ -116,6 +116,10 @@ class HomeViewController: UIViewController {
         self.calculateWeekWorkedHours()
     }
     
+    @IBAction func shareOnFacebook(_ sender: Any) {
+        
+    }
+    
     //Auxiliary methods ------------------------
     
     func calculateDayWorkedHours(date: Date) -> Int {

@@ -22,6 +22,9 @@ class OptionsViewController: UIViewController {
         optionsTableView.dataSource = self
         self.setupTableView()
         self.setupBackButton()
+        UNUserNotificationCenter.current().getPendingNotificationRequests { (requests) in
+            print(requests)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,37 +54,69 @@ class OptionsViewController: UIViewController {
             self.navigationController?.popViewController(animated: true)
             return
         }
-        guard var checkInTime = options.checkInTime else {
+        guard let checkInTime = options.checkInTime else {
             self.navigationController?.popViewController(animated: true)
             return
         }
-        let week = Date.getWeekDays()
+        
         if hour != String(checkInTime.split(separator: ":")[0]) ||
            minute != String(checkInTime.split(separator: ":")[1]) {
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["checkIn"])
-            for weekDay in week {
-                let content = UNMutableNotificationContent()
-                content.title = "Está na hora de bater o ponto!"
-                content.sound = UNNotificationSound.default()
-                var components = DateComponents()
-                components.month = calendar.component(.weekOfMonth, from: weekDay)
-                components.day = calendar.component(.day, from: weekDay)
-                components.year = calendar.component(.year, from: weekDay)
-                components.hour = calendar.component(.hour, from: picker.date)
-                components.minute = calendar.component(.minute, from: picker.date)
-                let triggerDate = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
-                let request = UNNotificationRequest(identifier: "checkIn", content: content, trigger: triggerDate)
-                UNUserNotificationCenter.current().add(request) { (error) in
-                    if let hasError = error {
-                        let alert = UIAlertController(title: "Erro ao agendar notificação de entrada", message: hasError.localizedDescription, preferredStyle: .alert)
-                        self.present(alert, animated: true)
-                    }
-                }
-            }
+            self.setupWeekNotifications(picker: picker, calendar: calendar, options: options)
+        }
+        if options.workWeek == "Sábado" {
+            self.setupSaturdayNotifications(picker: picker, calendar: calendar, options: options)
         }
         self.user?.optionsOfUser?.checkInTime = "\(hour):\(minute)"
         PersistenceService.saveContext()
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    func setupWeekNotifications(picker: UIDatePicker, calendar: Calendar, options: Options) {
+        let week = Date.getWeekDays()
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["checkIn"])
+        for weekDay in week {
+            let content = UNMutableNotificationContent()
+            content.title = "Está na hora de bater o ponto!"
+            content.sound = UNNotificationSound.default()
+            var components = DateComponents()
+            components.month = calendar.component(.weekOfMonth, from: weekDay)
+            components.day = calendar.component(.day, from: weekDay)
+            components.year = calendar.component(.year, from: weekDay)
+            components.minute = calendar.component(.minute, from: picker.date) < 15 ? 60 - calendar.component(.minute, from: picker.date) - 15 : calendar.component(.minute, from: picker.date) - 15
+            components.hour = calendar.component(.minute, from: picker.date) < 15 ? calendar.component(.hour, from: picker.date) - 1 : calendar.component(.hour, from: picker.date)
+            let triggerDate = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+            let request = UNNotificationRequest(identifier: "checkIn", content: content, trigger: triggerDate)
+            UNUserNotificationCenter.current().add(request) { (error) in
+                if let hasError = error {
+                    let alert = UIAlertController(title: "Erro ao agendar notificação de entrada", message: hasError.localizedDescription, preferredStyle: .alert)
+                    self.present(alert, animated: true)
+                }
+            }
+        }
+    }
+    
+    func setupSaturdayNotifications(picker: UIDatePicker, calendar: Calendar, options: Options) {
+        if options.workWeek == "Sábado" {
+            let week = Date.getWeekDays()
+            let content = UNMutableNotificationContent()
+            content.title = "Está na hora de bater o ponto!"
+            content.sound = UNNotificationSound.default()
+            var components = DateComponents()
+            let saturday = week.last!.addingTimeInterval(3600*24)
+            components.month = calendar.component(.weekOfMonth, from: saturday)
+            components.day = calendar.component(.day, from: saturday)
+            components.year = calendar.component(.year, from: saturday)
+            components.minute = calendar.component(.minute, from: picker.date) < 15 ? 60 - calendar.component(.minute, from: picker.date) - 15 : calendar.component(.minute, from: picker.date) - 15
+            components.hour = calendar.component(.minute, from: picker.date) < 15 ? calendar.component(.hour, from: picker.date) - 1 : calendar.component(.hour, from: picker.date)
+            let triggerDate = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+            let request = UNNotificationRequest(identifier: "checkIn", content: content, trigger: triggerDate)
+            UNUserNotificationCenter.current().add(request) { (error) in
+                if let hasError = error {
+                    let alert = UIAlertController(title: "Erro ao agendar notificação de entrada", message: hasError.localizedDescription, preferredStyle: .alert)
+                    self.present(alert, animated: true)
+                }
+            }
+        }
     }
     
     func setupPickers() {

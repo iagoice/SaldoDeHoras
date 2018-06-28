@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import CoreData
+import FBSDKShareKit
 
 class HomeView: UIView {
     
@@ -22,7 +23,13 @@ class HomeView: UIView {
         self.updateCheckLabels(user: user)
         self.addGestures()
         self.backgroundColor = UIColor.orange
-        
+        let shareLink = FBSDKShareLinkContent()
+        shareLink.contentURL = URL(string: "https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+        shareLink.quote = "Estou usando Saldo de Horas para marcar meu ponto!"
+        let shareButton = FBSDKShareButton()
+        shareButton.shareContent = shareLink
+        shareButton.center = CGPoint(x: self.center.x, y: self.center.y - 60)
+        self.addSubview(shareButton)
     }
     
     func updateCheckLabels (user: User?) {
@@ -32,7 +39,7 @@ class HomeView: UIView {
             for (index, check) in sortedChecks.enumerated() {
                 if let checkMark = check as? Check {
                     createCheckLabel(time: checkMark.date!, index: index)
-                    self.checksScrollView.contentSize = CGSize(width: self.checksScrollView.contentSize.width + 100, height: self.checksScrollView.contentSize.height)
+                    self.checksScrollView.contentSize = CGSize(width: self.checksScrollView.contentSize.width + 110, height: self.checksScrollView.contentSize.height)
                 }
             }
         }
@@ -48,9 +55,10 @@ class HomeView: UIView {
     func createCheckLabel(time: NSDate, index: Int) {
         let label = UILabel()
         let calendar = NSCalendar.current
-        let hour = calendar.component(.hour, from: time as Date)
-        let minute = calendar.component(.minute, from: time as Date)
-        label.text = "\(hour):\(minute)"
+        let formatter = DateFormatter()
+        formatter.dateFormat = "hh:mm"
+        
+        label.text = formatter.string(from: time as Date)
         self.checksScrollView.addSubview(label)
         let x = self.checksScrollView.frame.minX + 100 * CGFloat(index) + 10*CGFloat(index)
         label.frame = CGRect(x: x, y: self.checksScrollView.frame.minY - self.checksScrollView.frame.height/2, width: 100, height: self.checksScrollView.frame.height/2)

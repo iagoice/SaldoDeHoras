@@ -9,12 +9,17 @@
 import Foundation
 import UIKit
 import CoreData
+import FBSDKLoginKit
 
 
 class LoginViewController: UIViewController {
     
     @IBOutlet weak var loginView: LoginView!
     public var userInfoDelegate: UserInfoDelegate?
+    
+    override func viewDidLoad() {
+        self.loginView.setup()
+    }
     
     private var emptyAlert: UIAlertController = {
         let alert = UIAlertController(title: "Preencha o campo usuário", message: "Campo usuário não pode estar vazio.", preferredStyle: .alert)
@@ -68,4 +73,16 @@ class LoginViewController: UIViewController {
             PersistenceService.saveContext()
         } catch {}
     }
+}
+
+extension LoginViewController: FBSDKLoginButtonDelegate {
+    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+        
+    }
+    
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+        
+    }
+    
+    
 }

@@ -8,9 +8,16 @@
 
 import Foundation
 import UIKit
+import FBSDKLoginKit
 
 class LoginView: UIView {
     
     @IBOutlet weak var userTextField: UITextField!
     
+    func setup () {
+        let fbLoginButton = FBSDKLoginButton()
+        fbLoginButton.publishPermissions = []
+        fbLoginButton.center = CGPoint(x: self.center.x, y: self.center.y + 50)
+        self.addSubview(fbLoginButton)
+    }
 }
