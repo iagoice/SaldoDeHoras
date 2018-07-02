@@ -21,7 +21,10 @@ extension User {
     @NSManaged public var name: String?
     @NSManaged public var checksofuser: NSSet?
     @NSManaged public var optionsOfUser: Options?
-
+    @NSManaged public var dayWorkedHours: Int16
+    @NSManaged public var weekWorkedHours: Int16
+    @NSManaged public var monthWorkedHours: Int16
+    
 }
 
 // MARK: Generated accessors for checksofuser

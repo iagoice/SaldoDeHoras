@@ -289,21 +289,66 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="X7r-VM-m2y">
+                                <rect key="frame" x="137.5" y="447" width="100" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="Y0Q-VF-jFh"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pagar horas" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qtg-F6-WI1">
+                                <rect key="frame" x="142" y="406" width="91.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Saldo de Horas do mês" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RuH-XT-Snc">
+                                <rect key="frame" x="99.5" y="294" width="177.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hours" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OBZ-Vb-O4m">
+                                <rect key="frame" x="165.5" y="335" width="43.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qAM-1O-zsn">
+                                <rect key="frame" x="167" y="507" width="40" height="30"/>
+                                <state key="normal" title="Pagar"/>
+                                <connections>
+                                    <action selector="payHours:" destination="Zc6-vE-mhu" eventType="touchUpInside" id="eA3-g7-sQX"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="Qtg-F6-WI1" firstAttribute="top" secondItem="OBZ-Vb-O4m" secondAttribute="bottom" constant="50" id="0vg-if-6A5"/>
+                            <constraint firstItem="OBZ-Vb-O4m" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="16g-ho-Qzn"/>
                             <constraint firstItem="5pj-NF-RCF" firstAttribute="top" secondItem="qSf-0G-pRh" secondAttribute="bottom" constant="20" id="2b0-q7-9QN"/>
+                            <constraint firstItem="qAM-1O-zsn" firstAttribute="top" secondItem="X7r-VM-m2y" secondAttribute="bottom" constant="30" id="2gQ-Cy-Rmh"/>
+                            <constraint firstItem="X7r-VM-m2y" firstAttribute="top" secondItem="Qtg-F6-WI1" secondAttribute="bottom" constant="20" id="4bB-BR-Gbv"/>
+                            <constraint firstItem="RuH-XT-Snc" firstAttribute="top" secondItem="5pj-NF-RCF" secondAttribute="bottom" constant="50" id="834-Hd-Scf"/>
+                            <constraint firstItem="RuH-XT-Snc" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="9TQ-XU-TTG"/>
                             <constraint firstItem="B0w-PY-TCo" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="DWv-s0-M2b"/>
                             <constraint firstItem="qSf-0G-pRh" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="Kyy-kD-Rdh"/>
                             <constraint firstItem="5pj-NF-RCF" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="Lfs-i5-itL"/>
                             <constraint firstItem="DgY-FD-lUM" firstAttribute="top" secondItem="B0w-PY-TCo" secondAttribute="bottom" constant="20" id="O6P-uj-TVA"/>
                             <constraint firstItem="B0w-PY-TCo" firstAttribute="top" secondItem="gwo-L7-lJH" secondAttribute="top" constant="50" id="SCf-18-tPz"/>
+                            <constraint firstItem="Qtg-F6-WI1" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="W0W-K0-yUQ"/>
+                            <constraint firstItem="X7r-VM-m2y" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="YoN-Bu-nDr"/>
                             <constraint firstItem="qSf-0G-pRh" firstAttribute="top" secondItem="DgY-FD-lUM" secondAttribute="bottom" constant="50" id="Yya-0d-FY4"/>
+                            <constraint firstItem="qAM-1O-zsn" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="jAc-MJ-e2E"/>
+                            <constraint firstItem="OBZ-Vb-O4m" firstAttribute="top" secondItem="RuH-XT-Snc" secondAttribute="bottom" constant="20" id="os1-H7-1lU"/>
                             <constraint firstItem="DgY-FD-lUM" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="sHC-Qc-rkq"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="gwo-L7-lJH"/>
                         <connections>
                             <outlet property="dayHoursLabel" destination="DgY-FD-lUM" id="Pio-TZ-OZG"/>
+                            <outlet property="payHoursTextField" destination="X7r-VM-m2y" id="Fdh-f8-M28"/>
                             <outlet property="weekHoursLabel" destination="5pj-NF-RCF" id="ajs-k7-Q4v"/>
                         </connections>
                     </view>

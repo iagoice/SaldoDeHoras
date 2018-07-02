@@ -10,33 +10,43 @@ import Foundation
 import UIKit
 
 class HoursViewController: UIViewController {
-    var weekHours: Int?
-    var dayHours: Int?
     var user: User?
     
     @IBOutlet var hoursView: HoursView!
     
     override func viewDidLoad() {
-        if let user = self.user, let options = user.optionsOfUser, let weekWorkHours = self.weekHours {
-            self.weekHours = weekWorkHours - Int(options.weekWorkHours)
-        }
-        self.hoursView.setup(dayHours: self.dayHours, weekHours: self.weekHours)
+        guard let user = self.user else { return }
+        self.hoursView.setup(withUser: user)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = false
     }
-}
-
-extension HoursViewController: HoursDelegate {
-    func getHours(dayHours: Int?, weekHours: Int?) {
-        if let safeHours = dayHours {
-            self.dayHours = safeHours
+    
+    @IBAction func payHours(_ sender: UIButton) {
+        guard let user = self.user else { return }
+        guard let paidHours = Int16(self.hoursView.payHoursTextField.text!) else { return }
+        
+        if paidHours <= user.weekWorkedHours {
+            user.weekWorkedHours -= paidHours
+            PersistenceService.saveContext()
+            self.hoursView.payHoursTextField.text = ""
+            let alertSuccess = UIAlertController(title: "Horas pagas", message: "Horas pagas com sucesso.", preferredStyle: .alert)
+            let dismissAction = UIAlertAction(title: "OK", style: .default) { (action) in
+                alertSuccess.dismiss(animated: true, completion: nil)
+                self.hoursView.setup(withUser: user)
+            }
+            alertSuccess.addAction(dismissAction)
+            self.present(alertSuccess, animated: true)
+        } else {
+            let alertFail = UIAlertController(title: "Horas inválidas", message: "Você está tentando pagar horas além das que você trabalhou.", preferredStyle: .alert)
+            let dismissAction = UIAlertAction(title: "OK", style: .default) { (action) in
+                alertFail.dismiss(animated: true, completion: nil)
+            }
+            alertFail.addAction(dismissAction)
+            self.present(alertFail, animated: true)
         }
         
-        if let safeHours = weekHours {
-            self.weekHours = safeHours
-        }
     }
 }
 

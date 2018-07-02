@@ -12,5 +12,5 @@ import CoreData
 
 @objc(Check)
 public class Check: NSManagedObject {
-
+    
 }

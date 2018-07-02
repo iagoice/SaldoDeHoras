@@ -44,6 +44,7 @@ class OptionsViewController: UIViewController {
     @objc func saveOptionsAndPopViewController() {
         let calendar = NSCalendar.current
         let picker = self.optionsTableView.cellForRow(at: IndexPath(row: 0, section: 0))?.subviews[3] as! UIDatePicker
+        let dayPicker = self.optionsTableView.cellForRow(at: IndexPath(row: 1, section: 0))?.subviews[3] as! UIPickerView
         let hour = String(calendar.component(.hour, from: picker.date))
         let minute = String(calendar.component(.minute, from: picker.date))
         guard let user = self.user else {
@@ -60,11 +61,9 @@ class OptionsViewController: UIViewController {
         }
         
         if hour != String(checkInTime.split(separator: ":")[0]) ||
-           minute != String(checkInTime.split(separator: ":")[1]) {
+           minute != String(checkInTime.split(separator: ":")[1]) ||
+            String(dayPicker.selectedRow(inComponent: 0)) != self.user?.optionsOfUser?.workWeek {
             self.setupWeekNotifications(picker: picker, calendar: calendar, options: options)
-        }
-        if options.workWeek == "Sábado" {
-            self.setupSaturdayNotifications(picker: picker, calendar: calendar, options: options)
         }
         self.user?.optionsOfUser?.checkInTime = "\(hour):\(minute)"
         PersistenceService.saveContext()
@@ -72,12 +71,13 @@ class OptionsViewController: UIViewController {
     }
     
     func setupWeekNotifications(picker: UIDatePicker, calendar: Calendar, options: Options) {
-        let week = Date.getWeekDays()
+        let week = Date.getWeekDays(workSaturday: options.workWeek == "Sábado")
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["checkIn"])
         for weekDay in week {
             let content = UNMutableNotificationContent()
             content.title = "Está na hora de bater o ponto!"
             content.sound = UNNotificationSound.default()
+            content.body = ""
             var components = DateComponents()
             components.month = calendar.component(.weekOfMonth, from: weekDay)
             components.day = calendar.component(.day, from: weekDay)
@@ -93,14 +93,13 @@ class OptionsViewController: UIViewController {
                 }
             }
         }
-    }
-    
-    func setupSaturdayNotifications(picker: UIDatePicker, calendar: Calendar, options: Options) {
+        
         if options.workWeek == "Sábado" {
-            let week = Date.getWeekDays()
+            let week = Date.getWeekDays(workSaturday: options.workWeek == "Sábado")
             let content = UNMutableNotificationContent()
             content.title = "Está na hora de bater o ponto!"
             content.sound = UNNotificationSound.default()
+            content.body = ""
             var components = DateComponents()
             let saturday = week.last!.addingTimeInterval(3600*24)
             components.month = calendar.component(.weekOfMonth, from: saturday)
@@ -118,6 +117,7 @@ class OptionsViewController: UIViewController {
             }
         }
     }
+
     
     func setupPickers() {
         if let safeUser = self.user, let options = safeUser.optionsOfUser {
@@ -261,23 +261,24 @@ extension OptionsViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerView.accessibilityIdentifier {
         case "days":
-            if let safeUser = self.user, let option = safeUser.optionsOfUser {
-                option.workWeek = days[row]
+            if let safeUser = self.user, let options = safeUser.optionsOfUser {
+                options.workWeek = days[row]
+                safeUser.updateWorkedHours()
                 PersistenceService.saveContext()
             } else {
-                let option = Options(context: PersistenceService.context)
-                option.workWeek = days[row]
-                self.user!.optionsOfUser = option
+                let options = Options(context: PersistenceService.context)
+                options.workWeek = days[row]
+                self.user!.optionsOfUser = options
                 PersistenceService.saveContext()
             }
         case "hours":
-            if let option = self.user!.optionsOfUser {
-                option.weekWorkHours = Int16(hours[row])
+            if let options = self.user!.optionsOfUser {
+                options.weekWorkHours = Int16(hours[row])
                 PersistenceService.saveContext()
             } else {
-                let option = Options(context: PersistenceService.context)
-                option.weekWorkHours = Int16(hours[row])
-                self.user!.optionsOfUser = option
+                let options = Options(context: PersistenceService.context)
+                options.weekWorkHours = Int16(hours[row])
+                self.user!.optionsOfUser = options
                 PersistenceService.saveContext()
             }
         default:

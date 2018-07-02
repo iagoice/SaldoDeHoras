@@ -7,3 +7,9 @@
 //
 
 import Foundation
+
+enum Filter {
+    case day
+    case week
+    case month
+}

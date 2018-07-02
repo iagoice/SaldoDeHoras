@@ -18,6 +18,9 @@
 		3738086420E29EF9008FFDA9 /* Options+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3738086020E29EF9008FFDA9 /* Options+CoreDataProperties.swift */; };
 		3738086620E2CB4A008FFDA9 /* HoursViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3738086520E2CB4A008FFDA9 /* HoursViewController.swift */; };
 		37382CA920E3D7B600EAF623 /* HoursView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37382CA820E3D7B600EAF623 /* HoursView.swift */; };
+		37432EF920E6A1C500594A79 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37432EF820E6A1C500594A79 /* UIViewExtension.swift */; };
+		37432EFB20EA935900594A79 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37432EFA20EA935900594A79 /* Filter.swift */; };
+		37432EFD20EA9B3700594A79 /* UserExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37432EFC20EA9B3700594A79 /* UserExtension.swift */; };
 		3755508020DAD615009DCA86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3755507F20DAD615009DCA86 /* AppDelegate.swift */; };
 		3755508220DAD615009DCA86 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3755508120DAD615009DCA86 /* HomeViewController.swift */; };
 		3755508520DAD615009DCA86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3755508320DAD615009DCA86 /* Main.storyboard */; };
@@ -69,6 +72,9 @@
 		3738086020E29EF9008FFDA9 /* Options+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Options+CoreDataProperties.swift"; path = "../../Options+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3738086520E2CB4A008FFDA9 /* HoursViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursViewController.swift; sourceTree = "<group>"; };
 		37382CA820E3D7B600EAF623 /* HoursView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoursView.swift; sourceTree = "<group>"; };
+		37432EF820E6A1C500594A79 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		37432EFA20EA935900594A79 /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
+		37432EFC20EA9B3700594A79 /* UserExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserExtension.swift; sourceTree = "<group>"; };
 		3755507C20DAD615009DCA86 /* SaldoDeHoras.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SaldoDeHoras.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3755507F20DAD615009DCA86 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3755508120DAD615009DCA86 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -250,6 +256,7 @@
 				3738086020E29EF9008FFDA9 /* Options+CoreDataProperties.swift */,
 				3738085920E29EDC008FFDA9 /* User+CoreDataClass.swift */,
 				3738085A20E29EDC008FFDA9 /* User+CoreDataProperties.swift */,
+				37432EFA20EA935900594A79 /* Filter.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -272,6 +279,8 @@
 				37FF8D4120E12BC300800879 /* UserInfoDelegate.swift */,
 				37FF8D4320E15E8300800879 /* DateExtension.swift */,
 				37FF8D4720E16BCC00800879 /* IntExtension.swift */,
+				37432EF820E6A1C500594A79 /* UIViewExtension.swift */,
+				37432EFC20EA9B3700594A79 /* UserExtension.swift */,
 			);
 			path = "Extensions and Protocols";
 			sourceTree = "<group>";
@@ -359,6 +368,11 @@
 					3755507B20DAD615009DCA86 = {
 						CreatedOnToolsVersion = 9.4;
 						LastSwiftMigration = 0940;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					3755509220DAD616009DCA86 = {
 						CreatedOnToolsVersion = 9.4;
@@ -504,11 +518,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				37FF8D4420E15E8300800879 /* DateExtension.swift in Sources */,
+				37432EFB20EA935900594A79 /* Filter.swift in Sources */,
 				375550C120DC1C18009DCA86 /* LoginViewController.swift in Sources */,
 				3738083220E26C10008FFDA9 /* OptionsViewController.swift in Sources */,
 				3738086220E29EF9008FFDA9 /* Check+CoreDataProperties.swift in Sources */,
 				3755508220DAD615009DCA86 /* HomeViewController.swift in Sources */,
 				375550B720DBDE81009DCA86 /* PersistenceService.swift in Sources */,
+				37432EF920E6A1C500594A79 /* UIViewExtension.swift in Sources */,
 				37382CA920E3D7B600EAF623 /* HoursView.swift in Sources */,
 				3755508820DAD615009DCA86 /* SaldoDeHoras.xcdatamodeld in Sources */,
 				3738085B20E29EDC008FFDA9 /* User+CoreDataClass.swift in Sources */,
@@ -517,6 +533,7 @@
 				37FF8D4220E12BC300800879 /* UserInfoDelegate.swift in Sources */,
 				375550BF20DC1162009DCA86 /* HomeView.swift in Sources */,
 				37FF8D4820E16BCC00800879 /* IntExtension.swift in Sources */,
+				37432EFD20EA9B3700594A79 /* UserExtension.swift in Sources */,
 				3755508020DAD615009DCA86 /* AppDelegate.swift in Sources */,
 				3738086420E29EF9008FFDA9 /* Options+CoreDataProperties.swift in Sources */,
 				3738086320E29EF9008FFDA9 /* Options+CoreDataClass.swift in Sources */,

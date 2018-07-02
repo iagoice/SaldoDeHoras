@@ -18,6 +18,7 @@ class LoginViewController: UIViewController {
     public var userInfoDelegate: UserInfoDelegate?
     
     override func viewDidLoad() {
+        Date.getMonthDays()
         self.loginView.setup()
     }
     
@@ -43,18 +44,15 @@ class LoginViewController: UIViewController {
                 })
                 let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! NavigationController
                 self.userInfoDelegate = navigationController
-                if index != nil {
-                    self.userInfoDelegate?.userInfo(user: users[index!])
+                if let safeIndex = index {
+                    let loggedUser = users[safeIndex]
+                    let today = Date()
+                    loggedUser.dayWorkedHours = loggedUser.calculateDayWorkedHours(date: today)
+                    loggedUser.weekWorkedHours = loggedUser.calculateWeekWorkedHours()
+                    self.userInfoDelegate?.userInfo(user: users[safeIndex])
                     self.present(navigationController, animated: true)
                 } else {
-                    let user = User(context: PersistenceService.context)
-                    let option = Options(context: PersistenceService.context)
-                    option.checkInTime = "08:00"
-                    option.weekWorkHours = 40
-                    option.workWeek = "Sexta"
-                    user.name = name
-                    user.optionsOfUser = option
-                    PersistenceService.saveContext()
+                    let user = self.createNewUserWithDefaultInfo(name: name)
                     index = users.count
                     self.userInfoDelegate?.userInfo(user: user)
                     self.present(navigationController, animated: true)
@@ -72,6 +70,20 @@ class LoginViewController: UIViewController {
             try PersistenceService.context.execute(deleteRequest)
             PersistenceService.saveContext()
         } catch {}
+    }
+    
+    func createNewUserWithDefaultInfo(name: String) -> User {
+        let user = User(context: PersistenceService.context)
+        let option = Options(context: PersistenceService.context)
+        option.checkInTime = "08:00"
+        option.weekWorkHours = 40
+        option.workWeek = "Sexta"
+        user.name = name
+        user.optionsOfUser = option
+        user.dayWorkedHours = 0
+        user.weekWorkedHours = 0
+        PersistenceService.saveContext()
+        return user
     }
 }
 

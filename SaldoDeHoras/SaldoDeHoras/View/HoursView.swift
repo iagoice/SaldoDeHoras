@@ -12,9 +12,11 @@ class HoursView: UIView {
     
     @IBOutlet weak var dayHoursLabel: UILabel!
     @IBOutlet weak var weekHoursLabel: UILabel!
+    @IBOutlet weak var payHoursTextField: UITextField!
     
-    func setup (dayHours: Int?, weekHours: Int?) {
-        self.dayHoursLabel.text = dayHours != nil ? "\(dayHours!) horas" : ""
-        self.weekHoursLabel.text = weekHours != nil ? "\(weekHours!) horas" : ""
+    func setup (withUser user: User?) {
+        let today = Date()
+        self.dayHoursLabel.text  = user != nil ? "\(user!.dayWorkedHours) horas" : "0"
+        self.weekHoursLabel.text = user != nil ? "\(user!.weekWorkedHours) horas"           : "0"
     }
 }

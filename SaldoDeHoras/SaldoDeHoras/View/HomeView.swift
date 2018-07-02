@@ -22,14 +22,16 @@ class HomeView: UIView {
         self.checkButton.roundButton(value: 50.0)
         self.updateCheckLabels(user: user)
         self.addGestures()
+        self.checksView.roundView(value: 5.0)
         self.backgroundColor = UIColor.orange
         let shareLink = FBSDKShareLinkContent()
         shareLink.contentURL = URL(string: "https://www.youtube.com/watch?v=dQw4w9WgXcQ")
         shareLink.quote = "Estou usando Saldo de Horas para marcar meu ponto!"
         let shareButton = FBSDKShareButton()
         shareButton.shareContent = shareLink
-        shareButton.center = CGPoint(x: self.center.x, y: self.center.y - 60)
+        shareButton.center = CGPoint(x: self.center.x, y: self.center.y - 80)
         self.addSubview(shareButton)
+        
     }
     
     func updateCheckLabels (user: User?) {
@@ -54,13 +56,11 @@ class HomeView: UIView {
     
     func createCheckLabel(time: NSDate, index: Int) {
         let label = UILabel()
-        let calendar = NSCalendar.current
         let formatter = DateFormatter()
-        formatter.dateFormat = "hh:mm"
-        
+        formatter.dateFormat = "HH:mm"
         label.text = formatter.string(from: time as Date)
         self.checksScrollView.addSubview(label)
-        let x = self.checksScrollView.frame.minX + 100 * CGFloat(index) + 10*CGFloat(index)
+        let x = self.checksScrollView.frame.minX + 100 * CGFloat(index) + (index == 0 ? 0 : 10*CGFloat(index))
         label.frame = CGRect(x: x, y: self.checksScrollView.frame.minY - self.checksScrollView.frame.height/2, width: 100, height: self.checksScrollView.frame.height/2)
         label.textColor = UIColor.white
         label.backgroundColor = UIColor.black

@@ -6,16 +6,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "SaldoDeHoras/Controller/OptionsViewController.swift"
-            timestampString = "551905287.578214"
+            filePath = "SaldoDeHoras/View/HomeView.swift"
+            timestampString = "552254724.052907"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
-            landmarkName = "setupWeekNotifications(picker:calendar:options:)"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "createCheckLabel(time:index:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,28 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SaldoDeHoras/Controller/OptionsViewController.swift"
-            timestampString = "551905287.578298"
+            timestampString = "552254724.0533431"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
-            landmarkName = "saveOptionsAndPopViewController()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SaldoDeHoras/Controller/OptionsViewController.swift"
-            timestampString = "551905287.5783761"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
-            landmarkName = "viewDidLoad()"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "setupWeekNotifications(picker:calendar:options:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -18,10 +18,6 @@ class HomeViewController: UIViewController {
     public var hoursDelegate: HoursDelegate!
     public var userDelegate: UserInfoDelegate?
     
-    enum Filter {
-        case day
-        case week
-    }
     
     var hours: [Int] = [8, 14, 15, 18]
 
@@ -43,14 +39,16 @@ class HomeViewController: UIViewController {
             let check = Check(context: PersistenceService.context)
             check.date = todayDate
             safeUser.addToChecksofuser(check)
+            safeUser.updateWorkedHours()
             PersistenceService.saveContext()
             self.homeView.updateCheckLabels(user: user)
-            if self.homeView.sortChecks(checks: safeUser.checksofuser!).count == 2 {
+            if let checks = safeUser.checksofuser, checks.count == 2 {
                 let today = Date()
                 let calendar = NSCalendar.current
-                var content = UNMutableNotificationContent()
+                let content = UNMutableNotificationContent()
                 content.title = "Hora de voltar do almoço"
                 content.sound = UNNotificationSound.default()
+                content.body = ""
                 let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: Date(timeInterval: 45*60, since: today))
                 let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
                 let request = UNNotificationRequest(identifier: "lunch", content: content, trigger: trigger)
@@ -94,14 +92,9 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func openHours(_ sender: UIButton) {
-        let today = Date()
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let hoursViewController = storyboard.instantiateViewController(withIdentifier: "HoursViewController") as! HoursViewController
-        self.hoursDelegate = hoursViewController
         self.userDelegate = hoursViewController
-        let dayWorkedHours = self.calculateDayWorkedHours(date: today)
-        let weekWorkedHours = self.calculateWeekWorkedHours()
-        self.hoursDelegate.getHours(dayHours: dayWorkedHours, weekHours: weekWorkedHours)
         if let user = self.user {
             self.userDelegate?.userInfo(user: user)
         }
@@ -110,73 +103,16 @@ class HomeViewController: UIViewController {
     
     
     @IBAction func createChecks(_ sender: UIButton) {
-        let today = Date()
         self.createChecks()
-        self.calculateDayWorkedHours(date: today)
-        self.calculateWeekWorkedHours()
-    }
-    
-    @IBAction func shareOnFacebook(_ sender: Any) {
-        
     }
     
     //Auxiliary methods ------------------------
-    
-    func calculateDayWorkedHours(date: Date) -> Int {
-        guard let checks = self.user?.checksofuser else { return 0 }
-        let calendar = NSCalendar.current
-        var hours = 0
-        let dayChecks = self.filterChecks(checks: checks, filter: .day, date: date)
-        for (index, check) in dayChecks.enumerated() {
-            if index.isEven() && index < dayChecks.count - 1 {
-                let timeIn =  calendar.component(.hour, from: check.date! as Date)
-                let timeOut = calendar.component(.hour, from: dayChecks[index+1].date! as Date)
-                hours += timeOut - timeIn
-            }
-        }
-        if !dayChecks.count.isEven() && date == Date() {
-                let lastCheck = dayChecks[dayChecks.count-1].date
-                let checkHour = calendar.component(.hour, from: lastCheck! as Date)
-                let now = calendar.component(.hour, from: Date())
-                let hoursFromLastCheck = now - checkHour
-                hours += hoursFromLastCheck
-        }
-        return hours
-    }
-    
-    func calculateWeekWorkedHours() -> Int {
-        var weekHoursWorked = 0
-        let weekDays = Date.getWeekDays()
-        for day in weekDays {
-            let weekDayHoursWorked = self.calculateDayWorkedHours(date: day)
-            weekHoursWorked += weekDayHoursWorked
-        }
-        return weekHoursWorked
-    }
-    
-    
-    
-    func filterChecks (checks: NSSet, filter: Filter, date: Date) -> [Check] {
-        var filteredChecks = [Check]()
-        let calendar = Calendar(identifier: .gregorian)
-        filteredChecks = checks.filter({ (checkIn) -> Bool in
-            let check = checkIn as! Check
-            let checkDate = check.date! as Date
-            if filter == .day {
-                return calendar.compare(date, to: checkDate, toGranularity: .day) == .orderedSame
-            }
-                return calendar.compare(date, to: checkDate, toGranularity: .weekOfMonth) == .orderedSame
-        }) as! [Check]
-        filteredChecks.sort { (check1, check2) -> Bool in
-            return check1.date!.compare(check2.date! as Date ) == .orderedAscending
-        }
-        return filteredChecks
-    }
     
     func createChecks() {
         for hour in hours {
             self.createCheck(hour: hour, minute: 0)
         }
+        self.homeView.updateCheckLabels(user: self.user)
     }
     
     func createCheck(hour: Int, minute: Int) {
