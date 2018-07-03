@@ -15,10 +15,31 @@ extension User {
         self.dayWorkedHours = calculateDayWorkedHours(date: today)
         self.weekWorkedHours = calculateWeekWorkedHours()
         self.monthWorkedHours = calculateMonthWorkedHours()
+        self.updateHoursBank()
         PersistenceService.saveContext()
     }
     
+    func updateHoursBank () {
+        self.hoursBank = self.weekWorkedHours - (self.optionsOfUser?.weekWorkHours)! - self.paidHours
+    }
+    
     func calculateDayWorkedHours(date: Date) -> Int16 {
+        guard let checks = self.checksofuser else { return 0 }
+        let calendar = NSCalendar.current
+        var hours: Int16 = 0
+        let dayChecks = self.filterChecks(checks: checks, filter: .day, date: date)
+        for (index, check) in dayChecks.enumerated() {
+            if index.isEven() && index < dayChecks.count - 1 {
+                let date = dayChecks[index+1].date! as Date
+                let time = date.timeIntervalSince(check.date! as Date)/3600
+                hours += Int16(time)
+            }
+        }
+        
+        return hours
+    }
+    
+    func calculateDayWorkedHoursSoFar(date: Date) -> Int16 {
         guard let checks = self.checksofuser else { return 0 }
         let calendar = NSCalendar.current
         var hours: Int16 = 0

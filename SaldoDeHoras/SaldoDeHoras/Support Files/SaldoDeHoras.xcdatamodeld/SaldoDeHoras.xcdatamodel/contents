@@ -12,8 +12,10 @@
     </entity>
     <entity name="User" representedClassName=".User" syncable="YES">
         <attribute name="dayWorkedHours" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="hoursBank" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="monthWorkedHours" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="paidHours" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="weekWorkedHours" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="checksofuser" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Check" inverseName="userOfChecks" inverseEntity="Check" syncable="YES"/>
         <relationship name="optionsOfUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Options" inverseName="userOfOptions" inverseEntity="Options" syncable="YES"/>
@@ -21,6 +23,6 @@
     <elements>
         <element name="Check" positionX="-1944" positionY="-5463" width="128" height="73"/>
         <element name="Options" positionX="-1962" positionY="-5481" width="128" height="103"/>
-        <element name="User" positionX="-1980" positionY="-5517" width="128" height="135"/>
+        <element name="User" positionX="-1980" positionY="-5517" width="128" height="165"/>
     </elements>
 </model>

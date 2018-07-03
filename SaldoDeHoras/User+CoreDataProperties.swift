@@ -24,6 +24,8 @@ extension User {
     @NSManaged public var dayWorkedHours: Int16
     @NSManaged public var weekWorkedHours: Int16
     @NSManaged public var monthWorkedHours: Int16
+    @NSManaged public var hoursBank: Int16
+    @NSManaged public var paidHours: Int16
     
 }
 

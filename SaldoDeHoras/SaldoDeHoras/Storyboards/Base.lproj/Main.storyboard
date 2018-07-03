@@ -271,8 +271,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Saldo de horas da semana" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qSf-0G-pRh">
-                                <rect key="frame" x="87" y="182" width="202" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Horas trabalhadas na semana" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qSf-0G-pRh">
+                                <rect key="frame" x="74.5" y="182" width="227" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -283,8 +283,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Horas do dia" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B0w-PY-TCo">
-                                <rect key="frame" x="139.5" y="70" width="97" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Horas trabalhadas no dia" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B0w-PY-TCo">
+                                <rect key="frame" x="92.5" y="70" width="191" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -304,14 +304,20 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Saldo de Horas do mês" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RuH-XT-Snc">
-                                <rect key="frame" x="99.5" y="294" width="177.5" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Saldo de horas da semana" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RuH-XT-Snc">
+                                <rect key="frame" x="86.5" y="294" width="202" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="hours" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OBZ-Vb-O4m">
                                 <rect key="frame" x="165.5" y="335" width="43.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Horas pagas: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5iX-C4-ms4">
+                                <rect key="frame" x="135" y="577" width="105.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -333,6 +339,7 @@
                             <constraint firstItem="X7r-VM-m2y" firstAttribute="top" secondItem="Qtg-F6-WI1" secondAttribute="bottom" constant="20" id="4bB-BR-Gbv"/>
                             <constraint firstItem="RuH-XT-Snc" firstAttribute="top" secondItem="5pj-NF-RCF" secondAttribute="bottom" constant="50" id="834-Hd-Scf"/>
                             <constraint firstItem="RuH-XT-Snc" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="9TQ-XU-TTG"/>
+                            <constraint firstItem="5iX-C4-ms4" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="9lQ-XH-WoU"/>
                             <constraint firstItem="B0w-PY-TCo" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="DWv-s0-M2b"/>
                             <constraint firstItem="qSf-0G-pRh" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="Kyy-kD-Rdh"/>
                             <constraint firstItem="5pj-NF-RCF" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="Lfs-i5-itL"/>
@@ -342,13 +349,16 @@
                             <constraint firstItem="X7r-VM-m2y" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="YoN-Bu-nDr"/>
                             <constraint firstItem="qSf-0G-pRh" firstAttribute="top" secondItem="DgY-FD-lUM" secondAttribute="bottom" constant="50" id="Yya-0d-FY4"/>
                             <constraint firstItem="qAM-1O-zsn" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="jAc-MJ-e2E"/>
+                            <constraint firstItem="5iX-C4-ms4" firstAttribute="top" secondItem="qAM-1O-zsn" secondAttribute="bottom" constant="40" id="mcK-Ed-Qfp"/>
                             <constraint firstItem="OBZ-Vb-O4m" firstAttribute="top" secondItem="RuH-XT-Snc" secondAttribute="bottom" constant="20" id="os1-H7-1lU"/>
                             <constraint firstItem="DgY-FD-lUM" firstAttribute="centerX" secondItem="iSY-7E-6a7" secondAttribute="centerX" id="sHC-Qc-rkq"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="gwo-L7-lJH"/>
                         <connections>
                             <outlet property="dayHoursLabel" destination="DgY-FD-lUM" id="Pio-TZ-OZG"/>
+                            <outlet property="paidHoursLabel" destination="5iX-C4-ms4" id="UtC-X1-Ua7"/>
                             <outlet property="payHoursTextField" destination="X7r-VM-m2y" id="Fdh-f8-M28"/>
+                            <outlet property="weekHoursBank" destination="OBZ-Vb-O4m" id="DIz-90-wf4"/>
                             <outlet property="weekHoursLabel" destination="5pj-NF-RCF" id="ajs-k7-Q4v"/>
                         </connections>
                     </view>

@@ -45,10 +45,6 @@ class LoginViewController: UIViewController {
                 let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! NavigationController
                 self.userInfoDelegate = navigationController
                 if let safeIndex = index {
-                    let loggedUser = users[safeIndex]
-                    let today = Date()
-                    loggedUser.dayWorkedHours = loggedUser.calculateDayWorkedHours(date: today)
-                    loggedUser.weekWorkedHours = loggedUser.calculateWeekWorkedHours()
                     self.userInfoDelegate?.userInfo(user: users[safeIndex])
                     self.present(navigationController, animated: true)
                 } else {

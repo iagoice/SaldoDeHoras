@@ -274,6 +274,7 @@ extension OptionsViewController: UIPickerViewDelegate {
         case "hours":
             if let options = self.user!.optionsOfUser {
                 options.weekWorkHours = Int16(hours[row])
+                self.user!.updateWorkedHours()
                 PersistenceService.saveContext()
             } else {
                 let options = Options(context: PersistenceService.context)

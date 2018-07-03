@@ -23,7 +23,10 @@ class HomeView: UIView {
         self.updateCheckLabels(user: user)
         self.addGestures()
         self.checksView.roundView(value: 5.0)
+        self.checksScrollView.alwaysBounceHorizontal = false
+        self.checksScrollView.bounces = false
         self.backgroundColor = UIColor.orange
+        
         let shareLink = FBSDKShareLinkContent()
         shareLink.contentURL = URL(string: "https://www.youtube.com/watch?v=dQw4w9WgXcQ")
         shareLink.quote = "Estou usando Saldo de Horas para marcar meu ponto!"
