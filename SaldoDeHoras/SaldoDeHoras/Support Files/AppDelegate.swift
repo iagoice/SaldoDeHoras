@@ -20,15 +20,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.sound, .alert, .badge]) { (granted, error) in
-            
         }
         application.setMinimumBackgroundFetchInterval(TimeInterval(Constants.Values.Time.dayInSeconds))
+        guard let lastCheck = User.getLastCheck() else { return true }
+        guard let date = lastCheck as? Date else { return true }
+        if date.compare(today) == .orderedAscending {
+            do {
+                let usersRequest: NSFetchRequest<User> = User.fetchRequest()
+                let users = try PersistenceService.context.fetch(usersRequest)
+                for user in users {
+                    user.resetDay()
+                }
+            } catch {}
+        }
+        if today.isMonday() {
+            do {
+                let usersRequest: NSFetchRequest<User> = User.fetchRequest()
+                let users = try PersistenceService.context.fetch(usersRequest)
+                for user in users {
+                    user.resetWeek()
+                }
+            } catch {}
+        }
         return true
     }
     
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        if let viewController = self.window?.rootViewController as? HomeViewController {
-            viewController.user?.updateWorkedHours()
+        let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
+        do {
+            let users = try PersistenceService.context.fetch(fetchRequest)
+            if today.isMonday() {
+                for user in users {
+                    user.resetWeek()
+                }
+            } else {
+                for user in users {
+                    user.resetDay()
+                }
+            }
+        } catch {
+            print (error.localizedDescription)
         }
     }
     

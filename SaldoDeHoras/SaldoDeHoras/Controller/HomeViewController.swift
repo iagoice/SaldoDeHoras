@@ -81,6 +81,7 @@ class HomeViewController: UIViewController {
         do {
             try PersistenceService.context.execute(deleteRequest)
             self.user?.paidHours = Constants.DefaultValues.zero
+            self.user?.resetWeek()
             self.user?.updateWorkedHours()
             PersistenceService.saveContext()
             self.homeView.updateCheckLabels(user: self.user)

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 extension User {
     
@@ -14,21 +15,20 @@ extension User {
         let today = Date()
         self.dayWorkedHours = calculateDayWorkedHours(date: today)
         self.weekWorkedHours = calculateWeekWorkedHours()
-        self.updateHoursBank()
         PersistenceService.saveContext()
     }
     
     public func resetWeek() {
-        self.weekWorkedHours = 0
-        self.dayWorkedHours = 0
-        self.hoursBank = 0
-        self.paidHours = 0
+        self.weekWorkedHours = Int16(Constants.zero)
+        self.dayWorkedHours = Int16(Constants.zero)
+        self.hoursBank = Int16(Constants.zero)
+        self.paidHours = Int16(Constants.zero)
         PersistenceService.saveContext()
     }
     
     public func resetDay() {
-        self.dayWorkedHours = 0
-        
+        self.dayWorkedHours = Int16(Constants.zero)
+        PersistenceService.saveContext()
     }
     
     private func updateHoursBank () {
@@ -118,5 +118,26 @@ extension User {
         }
         
         return sortedChecks
+    }
+    
+    static func getLastCheck() -> NSDate? {
+        do {
+            let usersRequest: NSFetchRequest<User> = User.fetchRequest()
+            let users = try PersistenceService.context.fetch(usersRequest)
+            var lastCheck = Check(context: PersistenceService.context)
+            lastCheck.date = NSDate(timeIntervalSince1970: TimeInterval(Constants.zero))
+            for user in users {
+                guard let checks = user.checksofuser else { return nil }
+                for checkAny in checks {
+                    guard let check = checkAny as? Check else { return nil }
+                    if check.date!.compare(lastCheck.date! as Date) == .orderedDescending {
+                        lastCheck = check
+                    }
+                }
+            }
+            return lastCheck.date
+        } catch {}
+        
+        return nil
     }
 }

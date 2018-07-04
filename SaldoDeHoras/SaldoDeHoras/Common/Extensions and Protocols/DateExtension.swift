@@ -63,4 +63,10 @@ extension Date {
         
         return days
     }
+    
+    func isMonday() -> Bool {
+        let calendar = Calendar.current
+        let weekDay = calendar.component(.weekday, from: self)
+        return weekDay == 1
+    }
 }
