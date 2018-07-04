@@ -18,20 +18,19 @@ class LoginViewController: UIViewController {
     public var userInfoDelegate: UserInfoDelegate?
     
     override func viewDidLoad() {
-        Date.getMonthDays()
         self.loginView.setup()
     }
     
     private var emptyAlert: UIAlertController = {
-        let alert = UIAlertController(title: "Preencha o campo usuário", message: "Campo usuário não pode estar vazio.", preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let alert = UIAlertController(title: Constants.Messages.LoginAlert.loginAlertTitle, message: Constants.Messages.LoginAlert.loginAlertMessage, preferredStyle: .alert)
+        let action = UIAlertAction(title: Constants.Messages.LoginAlert.alertOKButton, style: .default, handler: nil)
         alert.addAction(action)
         return alert
     }()
     
     @IBAction func pressLogin(_ sender: Any) {
         let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let storyboard = UIStoryboard(name: Constants.Storyboards.main, bundle: nil)
         var users: [User]
         var index: Int?
         
@@ -40,9 +39,12 @@ class LoginViewController: UIViewController {
             guard let name = loginView.userTextField.text else { return }
             if !name.isEmpty {
                 index = users.index(where: { (user) -> Bool in
-                    return user.name! == name
+                    if let userName = user.name {
+                        return userName == name
+                    }
+                    return false
                 })
-                let navigationController = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! NavigationController
+                guard let navigationController = storyboard.instantiateViewController(withIdentifier: Constants.Identifiers.navigationController) as? NavigationController else { return }
                 self.userInfoDelegate = navigationController
                 if let safeIndex = index {
                     self.userInfoDelegate?.userInfo(user: users[safeIndex])
@@ -60,7 +62,7 @@ class LoginViewController: UIViewController {
     }
 
     @IBAction func resetUsers(_ sender: UIButton) {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "User")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Constants.Entities.user)
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         do {
             try PersistenceService.context.execute(deleteRequest)
@@ -71,13 +73,13 @@ class LoginViewController: UIViewController {
     func createNewUserWithDefaultInfo(name: String) -> User {
         let user = User(context: PersistenceService.context)
         let option = Options(context: PersistenceService.context)
-        option.checkInTime = "08:00"
-        option.weekWorkHours = 40
-        option.workWeek = "Sexta"
+        option.checkInTime = Constants.DefaultValues.checkInTime
+        option.weekWorkHours = Constants.DefaultValues.weekWorkHours
+        option.workWeek = Constants.DefaultValues.workWeek
         user.name = name
         user.optionsOfUser = option
-        user.dayWorkedHours = 0
-        user.weekWorkedHours = 0
+        user.dayWorkedHours = Constants.DefaultValues.workedHours
+        user.weekWorkedHours = Constants.DefaultValues.weekWorkHours
         PersistenceService.saveContext()
         return user
     }

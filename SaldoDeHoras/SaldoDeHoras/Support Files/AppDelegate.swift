@@ -26,6 +26,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        if let viewController = self.window?.rootViewController as? HomeViewController {
+            viewController.user?.updateWorkedHours()
+        }
+    }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)

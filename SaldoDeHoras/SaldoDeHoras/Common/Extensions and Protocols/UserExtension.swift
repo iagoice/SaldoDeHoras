@@ -14,16 +14,15 @@ extension User {
         let today = Date()
         self.dayWorkedHours = calculateDayWorkedHours(date: today)
         self.weekWorkedHours = calculateWeekWorkedHours()
-        self.monthWorkedHours = calculateMonthWorkedHours()
         self.updateHoursBank()
         PersistenceService.saveContext()
     }
     
-    func updateHoursBank () {
+    private func updateHoursBank () {
         self.hoursBank = self.weekWorkedHours - (self.optionsOfUser?.weekWorkHours)! - self.paidHours
     }
     
-    func calculateDayWorkedHours(date: Date) -> Int16 {
+    private func calculateDayWorkedHours(date: Date) -> Int16 {
         guard let checks = self.checksofuser else { return 0 }
         let calendar = NSCalendar.current
         var hours: Int16 = 0
@@ -61,7 +60,7 @@ extension User {
         return hours
     }
     
-    func calculateWeekWorkedHours() -> Int16 {
+    private func calculateWeekWorkedHours() -> Int16 {
         var weekHoursWorked: Int16 = 0
         let weekDays = Date.getWeekDays(workSaturday: self.optionsOfUser!.workWeek == "Sábado")
         for day in weekDays {
@@ -69,13 +68,6 @@ extension User {
             weekHoursWorked += weekDayHoursWorked
         }
         return weekHoursWorked
-    }
-    
-    func calculateMonthWorkedHours () -> Int16 {
-        guard let checks = self.checksofuser else { return 0 }
-        var monthWorkedHours: Int16 = 0
-        let calendar = Calendar.current
-        return monthWorkedHours
     }
     
     func filterChecks (checks: NSSet, filter: Filter, date: Date) -> [Check] {
@@ -99,7 +91,7 @@ extension User {
         return filteredChecks
     }
     
-    func sortChecks (checks: NSSet) {
+    private func sortChecks (checks: NSSet) {
         let todayChecks = checks.filter { (check) -> Bool in
             if let checkDate = check as? Check {
                 return Date.isCheckFromToday(check: checkDate)

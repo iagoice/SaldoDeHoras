@@ -18,6 +18,84 @@ class HomeView: UIView {
     @IBOutlet weak var checksView: UIView!
     @IBOutlet weak var animationConstraint: NSLayoutConstraint!
     
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            if touch.view == checksView {
+                let current = touch.location(in: self)
+                let previous = touch.previousLocation(in: self)
+                UIView.animate(withDuration: 0.3) {
+                    if previous.y > current.y && self.animationConstraint.constant < 20 {
+                        self.animationConstraint.constant += previous.y - current.y
+                    }
+                    if previous.y < current.y && self.animationConstraint.constant > -50 {
+                        self.animationConstraint.constant -= current.y - previous.y
+                    }
+                }
+            }
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            if touch.view == checksView {
+                UIView.animate(withDuration: 0.3) {
+                    var constant = self.animationConstraint.constant
+                    if constant == 20 || constant == -50 {
+                        constant = constant == 20 ? -50 : 20
+                    }
+                }
+            }
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            if touch.view == checksView {
+                let current = touch.location(in: self)
+                let previous = touch.previousLocation(in: self)
+                if current.y > previous.y {
+                    if  self.animationConstraint.constant < 0 {
+                        UIView.animate(withDuration: 0.5) {
+                            self.animationConstraint.constant = -50
+                        }
+                    } else {
+                        UIView.animate(withDuration: 0.5) {
+                            self.animationConstraint.constant = 20
+                        }
+                    }
+                } else {
+                    if  self.animationConstraint.constant > -20 {
+                        UIView.animate(withDuration: 0.5) {
+                            self.animationConstraint.constant = 20
+                        }
+                    } else {
+                        UIView.animate(withDuration: 0.5) {
+                            self.animationConstraint.constant = -50
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            if touch.view == checksView {
+                UIView.animate(withDuration: 1.0) {
+                    if self.animationConstraint.constant != 20 && self.animationConstraint.constant != -50 {
+                        let distanceTo20 = abs(20  - self.animationConstraint.constant)
+                        let distanceTo50 = abs(-50 - self.animationConstraint.constant)
+                        if distanceTo20 < distanceTo50 {
+                            self.animationConstraint.constant = 20
+                        } else {
+                            self.animationConstraint.constant = -50
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     func setup(user: User?) {
         self.checkButton.roundButton(value: 50.0)
         self.updateCheckLabels(user: user)
@@ -25,7 +103,6 @@ class HomeView: UIView {
         self.checksView.roundView(value: 5.0)
         self.checksScrollView.alwaysBounceHorizontal = false
         self.checksScrollView.bounces = false
-        self.backgroundColor = UIColor.orange
         
         let shareLink = FBSDKShareLinkContent()
         shareLink.contentURL = URL(string: "https://www.youtube.com/watch?v=dQw4w9WgXcQ")
@@ -34,7 +111,6 @@ class HomeView: UIView {
         shareButton.shareContent = shareLink
         shareButton.center = CGPoint(x: self.center.x, y: self.center.y - 80)
         self.addSubview(shareButton)
-        
     }
     
     func updateCheckLabels (user: User?) {

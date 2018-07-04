@@ -13,8 +13,6 @@ import UserNotifications
 
 class OptionsViewController: UIViewController {
     var user: User?
-    var hours = [20, 30, 40, 44]
-    var days = ["Sexta", "Sábado"]
     @IBOutlet weak var optionsTableView: UITableView!
     
     override func viewDidLoad() {
@@ -36,15 +34,17 @@ class OptionsViewController: UIViewController {
     }
     
     func setupBackButton() {
-        let backButton = UIBarButtonItem(title: "‹Back", style: .plain, target: self, action: #selector(saveOptionsAndPopViewController))
+        let backButton = UIBarButtonItem(title: Constants.backButton, style: .plain, target: self, action: #selector(saveOptionsAndPopViewController))
         self.navigationItem.hidesBackButton = true
         self.navigationItem.leftBarButtonItem = backButton
     }
     
     @objc func saveOptionsAndPopViewController() {
         let calendar = NSCalendar.current
-        let picker = self.optionsTableView.cellForRow(at: IndexPath(row: 0, section: 0))?.subviews[3] as! UIDatePicker
-        let dayPicker = self.optionsTableView.cellForRow(at: IndexPath(row: 1, section: 0))?.subviews[3] as! UIPickerView
+        let unsafePicker = self.optionsTableView.cellForRow(at: IndexPath(row: Constants.Indices.picker, section: Constants.Indices.section))?.subviews[Constants.Indices.subviewPosition]
+        let unsafeDayPicker = self.optionsTableView.cellForRow(at: IndexPath(row: Constants.Indices.dayPicker, section: Constants.Indices.section))?.subviews[Constants.Indices.subviewPosition]
+        guard let picker = unsafePicker as? UIDatePicker else { return }
+        guard let dayPicker = unsafeDayPicker as? UIPickerView else { return }
         let hour = String(calendar.component(.hour, from: picker.date))
         let minute = String(calendar.component(.minute, from: picker.date))
         guard let user = self.user else {
@@ -60,8 +60,8 @@ class OptionsViewController: UIViewController {
             return
         }
         
-        if hour != String(checkInTime.split(separator: ":")[0]) ||
-           minute != String(checkInTime.split(separator: ":")[1]) ||
+        if hour != String(checkInTime.split(separator: Constants.separator)[Constants.Indices.separatorHour]) ||
+           minute != String(checkInTime.split(separator: Constants.separator)[Constants.Indices.separatorMinute]) ||
             String(dayPicker.selectedRow(inComponent: 0)) != self.user?.optionsOfUser?.workWeek {
             self.setupWeekNotifications(picker: picker, calendar: calendar, options: options)
         }
@@ -101,7 +101,7 @@ class OptionsViewController: UIViewController {
             content.sound = UNNotificationSound.default()
             content.body = ""
             var components = DateComponents()
-            let saturday = week.last!.addingTimeInterval(3600*24)
+            guard let saturday = week.last else { return }
             components.month = calendar.component(.weekOfMonth, from: saturday)
             components.day = calendar.component(.day, from: saturday)
             components.year = calendar.component(.year, from: saturday)
@@ -124,32 +124,37 @@ class OptionsViewController: UIViewController {
             for index in 0...2 {
                 switch index {
                 case 0:
-                    let cell = self.optionsTableView.cellForRow(at: IndexPath(row: index, section: 0))
-                    let timePicker = cell?.subviews[3] as! UIDatePicker
-                    let checkInComponents = options.checkInTime!.split(separator: ":")
+                    guard let cell = self.optionsTableView.cellForRow(at: IndexPath(row: index, section: 0)) else { return }
+                    guard let timePicker = cell.subviews[3] as? UIDatePicker else { return }
+                    guard let checkInTime = options.checkInTime else { return }
+                    let checkInComponents = checkInTime.split(separator: ":")
                     var components = DateComponents()
                     let calendar = NSCalendar.current
                     components.hour = Int(checkInComponents[0])
                     components.minute = Int(checkInComponents[1])
-                    let date = calendar.date(from: components)
+                    guard let date = calendar.date(from: components) else { return }
                     
-                    timePicker.date = date!
+                    timePicker.date = date
                 case 1:
-                    let cell = self.optionsTableView.cellForRow(at: IndexPath(row: index, section: 0))
-                    let workWeekPicker = cell?.subviews[3] as! UIPickerView
+                    guard let cell = self.optionsTableView.cellForRow(at: IndexPath(row: index, section: 0)) else { return }
+                    guard let workWeekPicker = cell.subviews[3] as? UIPickerView else { return }
                     let userOption = options.workWeek
-                    let pickerIndex = days.index { (day) -> Bool in
+                    let pickerIndex = Constants.Options.days.index { (day) -> Bool in
                         return day == userOption
                     }
-                    workWeekPicker.selectRow(pickerIndex!, inComponent: 0, animated: false)
+                    if let index = pickerIndex {
+                        workWeekPicker.selectRow(index, inComponent: 0, animated: false)
+                    }
                 case 2:
-                    let cell = self.optionsTableView.cellForRow(at: IndexPath(row: index, section: 0))
-                    let workWeekPicker = cell?.subviews[3] as! UIPickerView
+                    guard let cell = self.optionsTableView.cellForRow(at: IndexPath(row: index, section: 0)) else { return }
+                    guard let workWeekPicker = cell.subviews[3] as? UIPickerView else { return }
                     let userOption = options.weekWorkHours
-                    let pickerIndex = hours.index { (hour) -> Bool in
+                    let pickerIndex = Constants.Options.hours.index { (hour) -> Bool in
                         return hour == userOption
                     }
-                    workWeekPicker.selectRow(pickerIndex!, inComponent: 0, animated: false)
+                    if let index = pickerIndex {
+                        workWeekPicker.selectRow(index, inComponent: 0, animated: false)
+                    }
                 default:
                     print("ue")
                 }
@@ -171,18 +176,18 @@ extension OptionsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") else { return UITableViewCell(style: .default, reuseIdentifier: "cell") }
         switch indexPath.row {
         case 0:
-            self.setupCellWithTimePicker(cell: cell!, identifier: "time", message: "Hora de entrada: ", width: 100)
+            self.setupCellWithTimePicker(cell: cell, identifier: "time", message: "Hora de entrada: ", width: 100)
         case 1:
-            self.setupCellWithPicker(cell: cell!, identifier: "days", message: "Semana até dia: ", width: 120)
+            self.setupCellWithPicker(cell: cell, identifier: "days", message: "Semana até dia: ", width: 120)
         case 2:
-            self.setupCellWithPicker(cell: cell!, identifier: "hours", message: "Duração semanal da jornada: ", width: 50)
+            self.setupCellWithPicker(cell: cell, identifier: "hours", message: "Duração semanal da jornada: ", width: 50)
         default:
             print()
         }
-        return cell!
+        return cell
     }
     
     func setupCellWithTimePicker(cell: UITableViewCell, identifier: String, message: String, width: CGFloat) {
@@ -236,9 +241,9 @@ extension OptionsViewController: UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch pickerView.accessibilityIdentifier {
         case "days":
-            return self.days.count
+            return Constants.Options.days.count
         case "hours":
-            return self.hours.count
+            return Constants.Options.hours.count
         default:
             return 0
         }
@@ -249,9 +254,9 @@ extension OptionsViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch pickerView.accessibilityIdentifier {
         case "hours":
-            return String(hours[row])
+            return String(Constants.Options.hours[row])
         case "days":
-            return String(days[row])
+            return String(Constants.Options.days[row])
         default:
             return ""
         }
@@ -261,26 +266,31 @@ extension OptionsViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerView.accessibilityIdentifier {
         case "days":
-            if let safeUser = self.user, let options = safeUser.optionsOfUser {
-                options.workWeek = days[row]
-                safeUser.updateWorkedHours()
-                PersistenceService.saveContext()
-            } else {
-                let options = Options(context: PersistenceService.context)
-                options.workWeek = days[row]
-                self.user!.optionsOfUser = options
-                PersistenceService.saveContext()
+            if let user = self.user {
+                if let options = user.optionsOfUser {
+                    options.workWeek = Constants.Options.days[row]
+                    user.updateWorkedHours()
+                    PersistenceService.saveContext()
+                    
+                } else {
+                    let options = Options(context: PersistenceService.context)
+                    options.workWeek = Constants.Options.days[row]
+                    user.optionsOfUser = options
+                    PersistenceService.saveContext()
+                }
             }
         case "hours":
-            if let options = self.user!.optionsOfUser {
-                options.weekWorkHours = Int16(hours[row])
-                self.user!.updateWorkedHours()
-                PersistenceService.saveContext()
-            } else {
-                let options = Options(context: PersistenceService.context)
-                options.weekWorkHours = Int16(hours[row])
-                self.user!.optionsOfUser = options
-                PersistenceService.saveContext()
+            if let user = self.user {
+                if let options = user.optionsOfUser {
+                    options.weekWorkHours = Int16(Constants.Options.hours[row])
+                    user.updateWorkedHours()
+                    PersistenceService.saveContext()
+                } else {
+                    let options = Options(context: PersistenceService.context)
+                    options.weekWorkHours = Int16(Constants.Options.hours[row])
+                    user.optionsOfUser = options
+                    PersistenceService.saveContext()
+                }
             }
         default:
             print()

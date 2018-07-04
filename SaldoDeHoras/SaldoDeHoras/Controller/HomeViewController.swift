@@ -38,7 +38,6 @@ class HomeViewController: UIViewController {
     // Button actions ------------------------
     
     @IBAction func checkIn(sender: Any) {
-        let today = Date()
         if let safeUser = self.user {
             let todayDate = today as NSDate
             let check = Check(context: PersistenceService.context)
@@ -56,11 +55,13 @@ class HomeViewController: UIViewController {
                     let calendar = Calendar.current
                     let checksList = checks.filter { (_) -> Bool in
                         return true
-                    } as! [Check]
-                    let lastCheckHour = calendar.component(.hour, from: checksList.last!.date! as Date)
-                    let secondToLastCheckHour = calendar.component(.hour, from: checksList[checksList.count - 2].date! as Date )
-                    let hoursSinceLastCheck = lastCheckHour - secondToLastCheckHour
-                    safeUser.hoursBank += Int16(hoursSinceLastCheck)
+                    } as? [Check]
+                    if let list = checksList, let last = list.last, let lastDate = last.date, let secondToLastDate = list[list.count - Constants.Indices.secondToLast].date {
+                        let lastCheckHour = calendar.component(.hour, from: lastDate as Date)
+                        let secondToLastCheckHour = calendar.component(.hour, from: secondToLastDate as Date )
+                        let hoursSinceLastCheck = lastCheckHour - secondToLastCheckHour
+                        safeUser.hoursBank += Int16(hoursSinceLastCheck)
+                    }
                 }
             }
         }
@@ -68,18 +69,18 @@ class HomeViewController: UIViewController {
     
     @IBAction func animate(_ sender: UIButton) {
         let constraint = self.homeView.animationConstraint
-        UIView.animate(withDuration: 0.5) {
-            constraint!.constant = constraint!.constant == 20 ? -70 : 20
+        UIView.animate(withDuration: Constants.AnimationDuration.short) {
+            constraint!.constant = constraint!.constant == Constants.ConstraintValues.higherConstraint ? Constants.ConstraintValues.lowerConstraint : Constants.ConstraintValues.higherConstraint
             self.homeView.layoutIfNeeded()
         }
     }
     
     @IBAction func resetCoreData(_ sender: UIButton) {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Check")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Constants.Entities.checks)
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         do {
             try PersistenceService.context.execute(deleteRequest)
-            self.user?.paidHours = 0
+            self.user?.paidHours = Constants.DefaultValues.zero
             self.user?.updateWorkedHours()
             PersistenceService.saveContext()
             self.homeView.updateCheckLabels(user: self.user)
@@ -87,8 +88,8 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func openOptions(_ sender: UIButton) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let optionsViewController = storyboard.instantiateViewController(withIdentifier: "OptionsViewController") as! OptionsViewController
+        let storyboard = UIStoryboard(name: Constants.Storyboards.main, bundle: nil)
+        guard let optionsViewController = storyboard.instantiateViewController(withIdentifier: Constants.Identifiers.optionsViewController) as? OptionsViewController else { return }
         self.userDelegate = optionsViewController
         if let safeUser = self.user {
             self.userDelegate?.userInfo(user: safeUser)
@@ -97,8 +98,8 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func openHours(_ sender: UIButton) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let hoursViewController = storyboard.instantiateViewController(withIdentifier: "HoursViewController") as! HoursViewController
+        let storyboard = UIStoryboard(name: Constants.Storyboards.main, bundle: nil)
+        guard let hoursViewController = storyboard.instantiateViewController(withIdentifier: Constants.Identifiers.hoursViewController) as? HoursViewController else { return }
         self.userDelegate = hoursViewController
         if let user = self.user {
             self.userDelegate?.userInfo(user: user)
@@ -124,9 +125,8 @@ class HomeViewController: UIViewController {
     }
     
     func createCheck(day: Int, hour: Int, minute: Int) {
-        let today = Date()
         var calendar = NSCalendar.current
-        calendar.locale = Locale(identifier: "pt_BR")
+        calendar.locale = Locale(identifier: Constants.Locales.ptBR)
         let check = Check(context: PersistenceService.context)
         let components = NSDateComponents()
         components.hour = hour
@@ -135,25 +135,27 @@ class HomeViewController: UIViewController {
         components.month = calendar.component(.month, from: today)
         components.year = calendar.component(.year, from: today)
         components.timeZone = .current
-        let date = calendar.date(from: components as DateComponents)
-        check.date = date! as NSDate
+        guard let date = calendar.date(from: components as DateComponents) else {
+            print (Constants.Error.dateConversionError)
+            return
+        }
+        check.date = date as NSDate
         self.user?.addToChecksofuser(check)
         PersistenceService.saveContext()
     }
     
     func bookLunchNotification () {
-        let today = Date()
         let calendar = NSCalendar.current
         let content = UNMutableNotificationContent()
-        content.title = "Hora de voltar do almoço"
+        content.title = Constants.Messages.LuchNotification.title
         content.sound = UNNotificationSound.default()
-        content.body = ""
-        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: Date(timeInterval: 45*60, since: today))
+        content.body = Constants.Messages.LuchNotification.body
+        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: Date(timeInterval: Constants.Messages.LuchNotification.notificationTime, since: today))
         let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
-        let request = UNNotificationRequest(identifier: "lunch", content: content, trigger: trigger)
+        let request = UNNotificationRequest(identifier: Constants.Identifiers.lunchNotification, content: content, trigger: trigger)
         UNUserNotificationCenter.current().add(request) { (error) in
             if let hasError = error {
-                let alert = UIAlertController(title: "Erro ao agendar notificação de entrada", message: hasError.localizedDescription, preferredStyle: .alert)
+                let alert = UIAlertController(title: Constants.Messages.NotificationAlertError.title, message: hasError.localizedDescription, preferredStyle: .alert)
                 self.present(alert, animated: true)
             }
         }
