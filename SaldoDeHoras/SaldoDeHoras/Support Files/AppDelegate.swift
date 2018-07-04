@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         center.requestAuthorization(options: [.sound, .alert, .badge]) { (granted, error) in
             
         }
-        application.setMinimumBackgroundFetchInterval(3600*24)
+        application.setMinimumBackgroundFetchInterval(TimeInterval(Constants.Values.Time.dayInSeconds))
         return true
     }
     

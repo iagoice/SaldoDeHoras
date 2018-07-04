@@ -17,7 +17,7 @@ class LoginView: UIView {
     func setup () {
         let fbLoginButton = FBSDKLoginButton()
         fbLoginButton.publishPermissions = []
-        fbLoginButton.center = CGPoint(x: self.center.x, y: self.center.y + 50)
+        fbLoginButton.center = CGPoint(x: self.center.x, y: self.center.y + Constants.Values.Sizes.fbLoginButtonCenterY)
         self.addSubview(fbLoginButton)
     }
 }

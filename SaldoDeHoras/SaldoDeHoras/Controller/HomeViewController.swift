@@ -69,8 +69,8 @@ class HomeViewController: UIViewController {
     
     @IBAction func animate(_ sender: UIButton) {
         let constraint = self.homeView.animationConstraint
-        UIView.animate(withDuration: Constants.AnimationDuration.short) {
-            constraint!.constant = constraint!.constant == Constants.ConstraintValues.higherConstraint ? Constants.ConstraintValues.lowerConstraint : Constants.ConstraintValues.higherConstraint
+        UIView.animate(withDuration: Constants.Values.AnimationDuration.short) {
+            constraint!.constant = constraint!.constant == Constants.Values.Constraint.higherConstraint ? Constants.Values.Constraint.lowerConstraint : Constants.Values.Constraint.higherConstraint
             self.homeView.layoutIfNeeded()
         }
     }

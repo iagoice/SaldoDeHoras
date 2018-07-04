@@ -13,21 +13,83 @@ import FBSDKShareKit
 
 class HomeView: UIView {
     
+    let zero = CGFloat(Constants.zero)
+    let two = CGFloat(Constants.two)
+    
     @IBOutlet weak var checkButton: UIButton!
     @IBOutlet weak var checksScrollView: UIScrollView!
     @IBOutlet weak var checksView: UIView!
     @IBOutlet weak var animationConstraint: NSLayoutConstraint!
     
+    func setup(user: User?) {
+        self.checkButton.roundButton(value: Constants.Values.Round.button)
+        self.updateCheckLabels(user: user)
+        self.setupChecksView()
+    }
+    
+    func updateCheckLabels (user: User?) {
+        self.removeCheckLabels()
+        if let safeUser = user, let checks = safeUser.checksofuser {
+            let sortedChecks = safeUser.sortChecks(checks: checks)
+            for (index, check) in sortedChecks.enumerated() {
+                if let checkMark = check as? Check {
+                    createCheckLabel(time: checkMark.date!, index: index)
+                    self.checksScrollView.contentSize = CGSize(width: self.checksScrollView.contentSize.width + Constants.Values.Sizes.checkLabelWidth + Constants.Values.Sizes.checksAddDistance, height: self.checksScrollView.contentSize.height)
+                }
+            }
+        }
+    }
+    
+    func removeCheckLabels() {
+        for view in self.checksScrollView.subviews {
+            view.removeFromSuperview()
+        }
+        self.checksScrollView.contentSize.width = zero
+    }
+    
+    func createCheckLabel(time: NSDate, index: Int) {
+        let label = UILabel()
+        let formatter = DateFormatter()
+        formatter.dateFormat = Constants.Formats.timeFormat
+        label.text = formatter.string(from: time as Date)
+        self.checksScrollView.addSubview(label)
+        let x = self.checksScrollView.frame.minX + Constants.Values.Sizes.checkLabelWidth * CGFloat(index) + (index == Constants.zero ? zero : Constants.Values.Sizes.checksAddDistance * CGFloat(index))
+        label.frame = CGRect(x: x, y: self.checksScrollView.frame.minY - self.checksScrollView.frame.height/CGFloat(Constants.two), width: Constants.Values.Sizes.checkLabelWidth, height: self.checksScrollView.frame.height/two)
+        label.textColor = UIColor.white
+        label.backgroundColor = UIColor.black
+        label.roundLabel(label.frame.size.height/two)
+        label.textAlignment = .center
+    }
+
+    func setupChecksView (){
+        self.checksView.roundView(value: Constants.Values.Round.view)
+        self.checksScrollView.alwaysBounceHorizontal = false
+        self.checksScrollView.bounces = false
+        self.checksView.backgroundColor = UIColor.blue
+    }
+    
+    func setupFacebookButton () {
+        let shareLink = FBSDKShareLinkContent()
+        shareLink.contentURL = URL(string: Constants.Messages.Facebook.rickRoll)
+        shareLink.quote = Constants.Messages.Facebook.shareMessage
+        let shareButton = FBSDKShareButton()
+        shareButton.shareContent = shareLink
+        shareButton.center = CGPoint(x: self.center.x, y: self.center.y - Constants.Values.Sizes.fbShareButtonCenterY)
+        self.addSubview(shareButton)
+    }
+}
+
+extension HomeView {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             if touch.view == checksView {
                 let current = touch.location(in: self)
                 let previous = touch.previousLocation(in: self)
-                UIView.animate(withDuration: 0.3) {
-                    if previous.y > current.y && self.animationConstraint.constant < 20 {
+                UIView.animate(withDuration: Constants.Values.AnimationDuration.short) {
+                    if previous.y > current.y && self.animationConstraint.constant < Constants.Values.Constraint.higherConstraint {
                         self.animationConstraint.constant += previous.y - current.y
                     }
-                    if previous.y < current.y && self.animationConstraint.constant > -50 {
+                    if previous.y < current.y && self.animationConstraint.constant > Constants.Values.Constraint.lowerConstraint {
                         self.animationConstraint.constant -= current.y - previous.y
                     }
                 }
@@ -38,10 +100,10 @@ class HomeView: UIView {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             if touch.view == checksView {
-                UIView.animate(withDuration: 0.3) {
+                UIView.animate(withDuration: Constants.Values.AnimationDuration.short) {
                     var constant = self.animationConstraint.constant
-                    if constant == 20 || constant == -50 {
-                        constant = constant == 20 ? -50 : 20
+                    if constant == Constants.Values.Constraint.higherConstraint || constant == Constants.Values.Constraint.lowerConstraint {
+                        constant = constant == Constants.Values.Constraint.higherConstraint ? Constants.Values.Constraint.lowerConstraint : Constants.Values.Constraint.higherConstraint
                     }
                 }
             }
@@ -54,23 +116,23 @@ class HomeView: UIView {
                 let current = touch.location(in: self)
                 let previous = touch.previousLocation(in: self)
                 if current.y > previous.y {
-                    if  self.animationConstraint.constant < 0 {
-                        UIView.animate(withDuration: 0.5) {
-                            self.animationConstraint.constant = -50
+                    if  !self.animationConstraint.constant.isPositive() {
+                        UIView.animate(withDuration: Constants.Values.AnimationDuration.short) {
+                            self.animationConstraint.constant = Constants.Values.Constraint.lowerConstraint
                         }
                     } else {
-                        UIView.animate(withDuration: 0.5) {
-                            self.animationConstraint.constant = 20
+                        UIView.animate(withDuration: Constants.Values.AnimationDuration.short) {
+                            self.animationConstraint.constant = Constants.Values.Constraint.higherConstraint
                         }
                     }
                 } else {
-                    if  self.animationConstraint.constant > -20 {
-                        UIView.animate(withDuration: 0.5) {
-                            self.animationConstraint.constant = 20
+                    if  self.animationConstraint.constant > Constants.Values.ChecksView.snapThreshold {
+                        UIView.animate(withDuration: Constants.Values.AnimationDuration.short) {
+                            self.animationConstraint.constant = Constants.Values.Constraint.higherConstraint
                         }
                     } else {
-                        UIView.animate(withDuration: 0.5) {
-                            self.animationConstraint.constant = -50
+                        UIView.animate(withDuration: Constants.Values.AnimationDuration.short) {
+                            self.animationConstraint.constant = Constants.Values.Constraint.lowerConstraint
                         }
                     }
                 }
@@ -81,111 +143,19 @@ class HomeView: UIView {
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             if touch.view == checksView {
-                UIView.animate(withDuration: 1.0) {
-                    if self.animationConstraint.constant != 20 && self.animationConstraint.constant != -50 {
-                        let distanceTo20 = abs(20  - self.animationConstraint.constant)
-                        let distanceTo50 = abs(-50 - self.animationConstraint.constant)
+                UIView.animate(withDuration: Constants.Values.AnimationDuration.long) {
+                    if self.animationConstraint.constant != Constants.Values.Constraint.higherConstraint && self.animationConstraint.constant != Constants.Values.Constraint.lowerConstraint {
+                        let distanceTo20 = abs(Constants.Values.Constraint.higherConstraint  - self.animationConstraint.constant)
+                        let distanceTo50 = abs(Constants.Values.Constraint.lowerConstraint - self.animationConstraint.constant)
                         if distanceTo20 < distanceTo50 {
-                            self.animationConstraint.constant = 20
+                            self.animationConstraint.constant = Constants.Values.Constraint.higherConstraint
                         } else {
-                            self.animationConstraint.constant = -50
+                            self.animationConstraint.constant = Constants.Values.Constraint.lowerConstraint
                         }
                     }
                 }
             }
         }
-    }
-    
-    func setup(user: User?) {
-        self.checkButton.roundButton(value: 50.0)
-        self.updateCheckLabels(user: user)
-        self.addGestures()
-        self.checksView.roundView(value: 5.0)
-        self.checksScrollView.alwaysBounceHorizontal = false
-        self.checksScrollView.bounces = false
-        
-        let shareLink = FBSDKShareLinkContent()
-        shareLink.contentURL = URL(string: "https://www.youtube.com/watch?v=dQw4w9WgXcQ")
-        shareLink.quote = "Estou usando Saldo de Horas para marcar meu ponto!"
-        let shareButton = FBSDKShareButton()
-        shareButton.shareContent = shareLink
-        shareButton.center = CGPoint(x: self.center.x, y: self.center.y - 80)
-        self.addSubview(shareButton)
-    }
-    
-    func updateCheckLabels (user: User?) {
-        self.removeCheckLabels()
-        if let safeUser = user, let checks = safeUser.checksofuser {
-            let sortedChecks = self.sortChecks(checks: checks)
-            for (index, check) in sortedChecks.enumerated() {
-                if let checkMark = check as? Check {
-                    createCheckLabel(time: checkMark.date!, index: index)
-                    self.checksScrollView.contentSize = CGSize(width: self.checksScrollView.contentSize.width + 110, height: self.checksScrollView.contentSize.height)
-                }
-            }
-        }
-    }
-    
-    func removeCheckLabels() {
-        for view in self.checksScrollView.subviews {
-            view.removeFromSuperview()
-        }
-        self.checksScrollView.contentSize.width = 0
-    }
-    
-    func createCheckLabel(time: NSDate, index: Int) {
-        let label = UILabel()
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
-        label.text = formatter.string(from: time as Date)
-        self.checksScrollView.addSubview(label)
-        let x = self.checksScrollView.frame.minX + 100 * CGFloat(index) + (index == 0 ? 0 : 10*CGFloat(index))
-        label.frame = CGRect(x: x, y: self.checksScrollView.frame.minY - self.checksScrollView.frame.height/2, width: 100, height: self.checksScrollView.frame.height/2)
-        label.textColor = UIColor.white
-        label.backgroundColor = UIColor.black
-        label.roundLabel(label.frame.size.height/2)
-        label.textAlignment = .center
-    }
-    
-    func addGestures() {
-        let swipeUpGesture = UISwipeGestureRecognizer(target: self.checksView, action: #selector(swipeUp))
-        swipeUpGesture.direction = .up
-        let tapGesture = UIGestureRecognizer(target: self.checksView, action: #selector(swipeUp))
-        self.checksView.addGestureRecognizer(swipeUpGesture)
-        self.checksView.addGestureRecognizer(tapGesture)
-        for view in self.checksView.subviews {
-            if view is UILabel {
-                view.addGestureRecognizer(swipeUpGesture)
-                view.addGestureRecognizer(tapGesture)
-            }
-        }
-    }
-    
-    @objc func swipeUp () {
-        UIView.animate(withDuration: 1.0) {
-            let constraint = self.checksView.constraints.filter { (constraintIn) -> Bool in
-                return constraintIn.identifier == "swipeConstraint"
-                }.first
-            constraint?.constant = 20
-            self.layoutIfNeeded()
-        }
-    }
-    
-    func sortChecks (checks: NSSet) -> [Any] {
-        let todayChecks = checks.filter { (check) -> Bool in
-            if let checkDate = check as? Check {
-                return Date.isCheckFromToday(check: checkDate)
-            }
-            return false
-        }
-        
-        let sortedChecks = todayChecks.sorted { (firstDate, secondDate) -> Bool in
-            guard let first  = firstDate  as? Check else { return false }
-            guard let second = secondDate as? Check else { return false }
-            return first.date!.compare(second.date! as Date) == .orderedAscending
-        }
-        
-        return sortedChecks
     }
 }
 

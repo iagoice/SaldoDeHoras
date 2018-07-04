@@ -26,8 +26,8 @@ class HoursViewController: UIViewController {
     @IBAction func payHours(_ sender: UIButton) {
         guard let user = self.user else { return }
         guard let paidHours = Int16(self.hoursView.payHoursTextField.text!) else {
-            let invalidAlert = UIAlertController(title: "Horas inválidas", message: "Entre com um valor válido de horas", preferredStyle: .alert)
-            let dismissAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            let invalidAlert = UIAlertController(title: Constants.Messages.HoursAlert.invalidHoursTitle, message: Constants.Messages.HoursAlert.invalidHoursMessage, preferredStyle: .alert)
+            let dismissAction = UIAlertAction(title: Constants.Messages.okButton, style: .default) { (action) in
                 invalidAlert.dismiss(animated: true, completion: nil)
                 self.hoursView.setup(withUser: user)
             }
@@ -36,24 +36,24 @@ class HoursViewController: UIViewController {
             return
         }
         
-        if paidHours <= user.hoursBank && paidHours > 0 {
+        if paidHours <= user.hoursBank && paidHours.isPositive() {
             user.paidHours += paidHours
             user.updateWorkedHours()
             PersistenceService.saveContext()
-            self.hoursView.payHoursTextField.text = ""
-            let alertSuccess = UIAlertController(title: "Horas pagas", message: "Horas pagas com sucesso.", preferredStyle: .alert)
-            let dismissAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            self.hoursView.payHoursTextField.text = Constants.emptyString
+            let alertSuccess = UIAlertController(title: Constants.Messages.HoursAlert.successTitle, message: Constants.Messages.HoursAlert.successMessage, preferredStyle: .alert)
+            let dismissAction = UIAlertAction(title: Constants.Messages.okButton, style: .default) { (action) in
                 alertSuccess.dismiss(animated: true, completion: nil)
                 self.hoursView.setup(withUser: user)
             }
             alertSuccess.addAction(dismissAction)
             self.present(alertSuccess, animated: true)
         } else {
-            let alertFail = UIAlertController(title: "Horas inválidas", message: "Você está tentando pagar horas além das que você trabalhou.", preferredStyle: .alert)
-            if paidHours <= 0 {
-                alertFail.message = "Entre com um valor válido de horas"
+            let alertFail = UIAlertController(title: Constants.Messages.HoursAlert.invalidHoursTitle, message: Constants.Messages.HoursAlert.invalidHoursBank, preferredStyle: .alert)
+            if !paidHours.isPositive() {
+                alertFail.message = Constants.Messages.HoursAlert.invalidHoursMessage
             }
-            let dismissAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            let dismissAction = UIAlertAction(title: Constants.Messages.okButton, style: .default) { (action) in
                 alertFail.dismiss(animated: true, completion: nil)
             }
             alertFail.addAction(dismissAction)

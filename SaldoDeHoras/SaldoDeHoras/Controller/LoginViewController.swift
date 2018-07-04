@@ -23,7 +23,7 @@ class LoginViewController: UIViewController {
     
     private var emptyAlert: UIAlertController = {
         let alert = UIAlertController(title: Constants.Messages.LoginAlert.loginAlertTitle, message: Constants.Messages.LoginAlert.loginAlertMessage, preferredStyle: .alert)
-        let action = UIAlertAction(title: Constants.Messages.LoginAlert.alertOKButton, style: .default, handler: nil)
+        let action = UIAlertAction(title: Constants.Messages.okButton, style: .default, handler: nil)
         alert.addAction(action)
         return alert
     }()

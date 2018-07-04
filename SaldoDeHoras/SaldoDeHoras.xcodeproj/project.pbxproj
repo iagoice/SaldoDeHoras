@@ -21,6 +21,7 @@
 		37432EF920E6A1C500594A79 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37432EF820E6A1C500594A79 /* UIViewExtension.swift */; };
 		37432EFB20EA935900594A79 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37432EFA20EA935900594A79 /* Filter.swift */; };
 		37432EFD20EA9B3700594A79 /* UserExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37432EFC20EA9B3700594A79 /* UserExtension.swift */; };
+		37432F0020ED383800594A79 /* ValuesExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37432EFF20ED383800594A79 /* ValuesExtension.swift */; };
 		3755508020DAD615009DCA86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3755507F20DAD615009DCA86 /* AppDelegate.swift */; };
 		3755508220DAD615009DCA86 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3755508120DAD615009DCA86 /* HomeViewController.swift */; };
 		3755508520DAD615009DCA86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3755508320DAD615009DCA86 /* Main.storyboard */; };
@@ -75,6 +76,7 @@
 		37432EF820E6A1C500594A79 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		37432EFA20EA935900594A79 /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		37432EFC20EA9B3700594A79 /* UserExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserExtension.swift; sourceTree = "<group>"; };
+		37432EFF20ED383800594A79 /* ValuesExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuesExtension.swift; sourceTree = "<group>"; };
 		3755507C20DAD615009DCA86 /* SaldoDeHoras.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SaldoDeHoras.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3755507F20DAD615009DCA86 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3755508120DAD615009DCA86 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 				37FF8D4720E16BCC00800879 /* IntExtension.swift */,
 				37432EF820E6A1C500594A79 /* UIViewExtension.swift */,
 				37432EFC20EA9B3700594A79 /* UserExtension.swift */,
+				37432EFF20ED383800594A79 /* ValuesExtension.swift */,
 			);
 			path = "Extensions and Protocols";
 			sourceTree = "<group>";
@@ -519,6 +522,7 @@
 			files = (
 				37FF8D4420E15E8300800879 /* DateExtension.swift in Sources */,
 				37432EFB20EA935900594A79 /* Filter.swift in Sources */,
+				37432F0020ED383800594A79 /* ValuesExtension.swift in Sources */,
 				375550C120DC1C18009DCA86 /* LoginViewController.swift in Sources */,
 				3738083220E26C10008FFDA9 /* OptionsViewController.swift in Sources */,
 				3738086220E29EF9008FFDA9 /* Check+CoreDataProperties.swift in Sources */,

@@ -17,7 +17,8 @@ class NavigationController: UINavigationController {
 
 extension NavigationController: UserInfoDelegate {
     func userInfo(user: User) {
-        let homeViewController = self.viewControllers[0] as! HomeViewController
-        homeViewController.user = user
+        if let homeViewController = self.viewControllers[Constants.Indices.navigationController] as? HomeViewController{
+            homeViewController.user = user
+        }
     }
 }

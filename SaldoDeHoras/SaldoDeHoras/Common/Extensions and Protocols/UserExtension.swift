@@ -18,19 +18,31 @@ extension User {
         PersistenceService.saveContext()
     }
     
+    public func resetWeek() {
+        self.weekWorkedHours = 0
+        self.dayWorkedHours = 0
+        self.hoursBank = 0
+        self.paidHours = 0
+        PersistenceService.saveContext()
+    }
+    
+    public func resetDay() {
+        self.dayWorkedHours = 0
+        
+    }
+    
     private func updateHoursBank () {
         self.hoursBank = self.weekWorkedHours - (self.optionsOfUser?.weekWorkHours)! - self.paidHours
     }
     
     private func calculateDayWorkedHours(date: Date) -> Int16 {
-        guard let checks = self.checksofuser else { return 0 }
-        let calendar = NSCalendar.current
-        var hours: Int16 = 0
+        guard let checks = self.checksofuser else { return Int16(Constants.zero) }
+        var hours: Int16 = Int16(Constants.zero)
         let dayChecks = self.filterChecks(checks: checks, filter: .day, date: date)
         for (index, check) in dayChecks.enumerated() {
-            if index.isEven() && index < dayChecks.count - 1 {
-                let date = dayChecks[index+1].date! as Date
-                let time = date.timeIntervalSince(check.date! as Date)/3600
+            if index.isEven() && index < dayChecks.count - Constants.Indices.last {
+                let date = dayChecks[index+Constants.one].date! as Date
+                let time = date.timeIntervalSince(check.date! as Date)/TimeInterval(Constants.Values.Time.secondsInHour)
                 hours += Int16(time)
             }
         }
@@ -39,19 +51,19 @@ extension User {
     }
     
     func calculateDayWorkedHoursSoFar(date: Date) -> Int16 {
-        guard let checks = self.checksofuser else { return 0 }
+        guard let checks = self.checksofuser else { return Int16(Constants.zero) }
         let calendar = NSCalendar.current
-        var hours: Int16 = 0
+        var hours: Int16 = Int16(Constants.zero)
         let dayChecks = self.filterChecks(checks: checks, filter: .day, date: date)
         for (index, check) in dayChecks.enumerated() {
-            if index.isEven() && index < dayChecks.count - 1 {
+            if index.isEven() && index < dayChecks.count - Constants.Indices.last {
                 let timeIn =  Int16(calendar.component(.hour, from: check.date! as Date))
-                let timeOut = Int16(calendar.component(.hour, from: dayChecks[index+1].date! as Date))
+                let timeOut = Int16(calendar.component(.hour, from: dayChecks[index+Constants.one].date! as Date))
                 hours += timeOut - timeIn
             }
         }
         if !dayChecks.count.isEven() && date == Date() {
-            let lastCheck = dayChecks[dayChecks.count-1].date
+            let lastCheck = dayChecks[dayChecks.count-Constants.Indices.last].date
             let checkHour = Int16(calendar.component(.hour, from: lastCheck! as Date))
             let now = Int16(calendar.component(.hour, from: Date()))
             let hoursFromLastCheck = now - checkHour
@@ -62,7 +74,7 @@ extension User {
     
     private func calculateWeekWorkedHours() -> Int16 {
         var weekHoursWorked: Int16 = 0
-        let weekDays = Date.getWeekDays(workSaturday: self.optionsOfUser!.workWeek == "Sábado")
+        let weekDays = Date.getWeekDays(workSaturday: self.optionsOfUser!.workWeek == Constants.saturday)
         for day in weekDays {
             let weekDayHoursWorked = self.calculateDayWorkedHours(date: day)
             weekHoursWorked += weekDayHoursWorked
@@ -91,7 +103,7 @@ extension User {
         return filteredChecks
     }
     
-    private func sortChecks (checks: NSSet) {
+    func sortChecks (checks: NSSet) -> [Any] {
         let todayChecks = checks.filter { (check) -> Bool in
             if let checkDate = check as? Check {
                 return Date.isCheckFromToday(check: checkDate)
@@ -104,8 +116,7 @@ extension User {
             guard let second = secondDate as? Check else { return false }
             return first.date!.compare(second.date! as Date) == .orderedAscending
         }
-        self.checksofuser = nil
-        self.addToChecksofuser(NSSet(array: sortedChecks))
-        PersistenceService.saveContext()
+        
+        return sortedChecks
     }
 }
