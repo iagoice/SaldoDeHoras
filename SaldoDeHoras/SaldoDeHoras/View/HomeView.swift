@@ -25,6 +25,7 @@ class HomeView: UIView {
         self.checkButton.roundButton(value: Constants.Values.Round.button)
         self.updateCheckLabels(user: user)
         self.setupChecksView()
+        self.layoutIfNeeded()
     }
     
     func updateCheckLabels (user: User?) {
@@ -120,20 +121,24 @@ extension HomeView {
                     if  !self.animationConstraint.constant.isPositive() {
                         UIView.animate(withDuration: Constants.Values.AnimationDuration.short) {
                             self.animationConstraint.constant = Constants.Values.Constraint.lowerConstraint
+                            self.layoutIfNeeded()
                         }
                     } else {
                         UIView.animate(withDuration: Constants.Values.AnimationDuration.short) {
                             self.animationConstraint.constant = Constants.Values.Constraint.higherConstraint
+                            self.layoutIfNeeded()
                         }
                     }
                 } else {
                     if  self.animationConstraint.constant > Constants.Values.ChecksView.snapThreshold {
                         UIView.animate(withDuration: Constants.Values.AnimationDuration.short) {
                             self.animationConstraint.constant = Constants.Values.Constraint.higherConstraint
+                            self.layoutIfNeeded()
                         }
                     } else {
                         UIView.animate(withDuration: Constants.Values.AnimationDuration.short) {
                             self.animationConstraint.constant = Constants.Values.Constraint.lowerConstraint
+                            self.layoutIfNeeded()
                         }
                     }
                 }
