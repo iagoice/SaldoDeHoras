@@ -17,13 +17,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        let today = Date()
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.sound, .alert, .badge]) { (granted, error) in
         }
         application.setMinimumBackgroundFetchInterval(TimeInterval(Constants.Values.Time.dayInSeconds))
         guard let lastCheck = User.getLastCheck() else { return true }
-        guard let date = lastCheck as? Date else { return true }
+        let date = lastCheck as Date
         if date.compare(today) == .orderedAscending {
             do {
                 let usersRequest: NSFetchRequest<User> = User.fetchRequest()
@@ -46,6 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        let today = Date()
         let fetchRequest: NSFetchRequest<User> = User.fetchRequest()
         do {
             let users = try PersistenceService.context.fetch(fetchRequest)

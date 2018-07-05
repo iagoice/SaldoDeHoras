@@ -66,6 +66,7 @@ class HomeView: UIView {
         self.checksScrollView.alwaysBounceHorizontal = false
         self.checksScrollView.bounces = false
         self.checksView.backgroundColor = UIColor.blue
+        self.checksScrollView.layoutIfNeeded()
     }
     
     func setupFacebookButton () {

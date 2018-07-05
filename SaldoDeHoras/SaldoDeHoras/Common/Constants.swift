@@ -6,8 +6,6 @@
 //  Copyright © 2018 Iago Mordente Rezende Leão Corrêa. All rights reserved.
 //
 
-let today = Date()
-
 struct Constants {
     
     static let backButton = "‹Back"

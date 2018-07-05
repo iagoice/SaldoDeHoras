@@ -21,8 +21,6 @@ extension User {
     public func resetWeek() {
         self.weekWorkedHours = Int16(Constants.zero)
         self.dayWorkedHours = Int16(Constants.zero)
-        self.hoursBank = Int16(Constants.zero)
-        self.paidHours = Int16(Constants.zero)
         PersistenceService.saveContext()
     }
     
@@ -31,8 +29,25 @@ extension User {
         PersistenceService.saveContext()
     }
     
-    private func updateHoursBank () {
-        self.hoursBank = self.weekWorkedHours - (self.optionsOfUser?.weekWorkHours)! - self.paidHours
+    func updateHoursBank (with previousHours: Int16) {
+        if let options = self.optionsOfUser {
+            self.hoursBank -= self.weekWorkedHours - previousHours
+            self.hoursBank += self.weekWorkedHours - options.weekWorkHours
+            if !self.hoursBank.isPositive() {
+                self.hoursBank = Int16(Constants.zero)
+            }
+        }
+        PersistenceService.saveContext()
+    }
+    
+    func updateHoursBank () {
+        if let options = self.optionsOfUser {
+            if self.weekWorkedHours > options.weekWorkHours {
+                self.hoursBank = self.weekWorkedHours - options.weekWorkHours - self.paidHours
+            } else {
+                self.hoursBank = 0
+            }
+        }
     }
     
     private func calculateDayWorkedHours(date: Date) -> Int16 {

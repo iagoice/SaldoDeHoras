@@ -38,7 +38,7 @@ class HoursViewController: UIViewController {
         
         if paidHours <= user.hoursBank && paidHours.isPositive() {
             user.paidHours += paidHours
-            user.updateWorkedHours()
+            user.hoursBank -= paidHours
             PersistenceService.saveContext()
             self.hoursView.payHoursTextField.text = Constants.emptyString
             let alertSuccess = UIAlertController(title: Constants.Messages.HoursAlert.successTitle, message: Constants.Messages.HoursAlert.successMessage, preferredStyle: .alert)

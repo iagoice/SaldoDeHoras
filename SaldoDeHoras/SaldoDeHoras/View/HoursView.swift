@@ -13,14 +13,16 @@ class HoursView: UIView {
     @IBOutlet weak var dayHoursLabel: UILabel!
     @IBOutlet weak var weekHoursLabel: UILabel!
     @IBOutlet weak var payHoursTextField: UITextField!
-    @IBOutlet weak var weekHoursBank: UILabel!
+    @IBOutlet weak var hoursBank: UILabel!
     @IBOutlet weak var paidHoursLabel: UILabel!
+    @IBOutlet weak var weekHours: UILabel!
     
     func setup (withUser user: User?) {
         let today = Date()
         self.dayHoursLabel.text  = user != nil ? "\(user!.calculateDayWorkedHoursSoFar(date: today)) horas" : "0"
         self.weekHoursLabel.text = user != nil ? "\(user!.weekWorkedHours) horas" : "0"
-        self.weekHoursBank.text  = user != nil ? "\(user!.hoursBank) horas" : ""
+        self.hoursBank.text  = user != nil ? "\(user!.hoursBank) horas" : ""
         self.paidHoursLabel.text = user != nil ? "Horas pagas: \(user!.paidHours)" : ""
+        self.weekHours.text = user != nil ? "\(user!.weekWorkedHours - user!.optionsOfUser!.weekWorkHours) horas" : "0"
     }
 }

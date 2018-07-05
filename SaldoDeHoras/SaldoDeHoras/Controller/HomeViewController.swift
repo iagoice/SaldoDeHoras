@@ -19,8 +19,8 @@ class HomeViewController: UIViewController {
     public var userDelegate: UserInfoDelegate?
     
     
-    var hours:   [Int] = [8,  10, 11, 18]
-    var minutes: [Int] = [53, 58, 47, 30]
+    var hours:   [Int] = [3,  8,  9,  12]
+    var minutes: [Int] = [30, 30, 30, 45]
     var days:    [Int] = [2, 3, 4, 5, 6]
 
     override func viewDidLoad() {
@@ -39,29 +39,18 @@ class HomeViewController: UIViewController {
     
     @IBAction func checkIn(sender: Any) {
         if let safeUser = self.user {
+            let today = Date()
             let todayDate = today as NSDate
             let check = Check(context: PersistenceService.context)
             check.date = todayDate
             safeUser.addToChecksofuser(check)
             safeUser.updateWorkedHours()
+            safeUser.updateHoursBank()
             PersistenceService.saveContext()
             self.homeView.updateCheckLabels(user: user)
             if let checks = safeUser.checksofuser{
                 if checks.count == 2 {
                     self.bookLunchNotification()
-                }
-                
-                if checks.count.isEven() {
-                    let calendar = Calendar.current
-                    let checksList = checks.filter { (_) -> Bool in
-                        return true
-                    } as? [Check]
-                    if let list = checksList, let last = list.last, let lastDate = last.date, let secondToLastDate = list[list.count - Constants.Indices.secondToLast].date {
-                        let lastCheckHour = calendar.component(.hour, from: lastDate as Date)
-                        let secondToLastCheckHour = calendar.component(.hour, from: secondToLastDate as Date )
-                        let hoursSinceLastCheck = lastCheckHour - secondToLastCheckHour
-                        safeUser.hoursBank += Int16(hoursSinceLastCheck)
-                    }
                 }
             }
         }
@@ -122,10 +111,12 @@ class HomeViewController: UIViewController {
             }
         }
         self.user?.updateWorkedHours()
+        self.user?.updateHoursBank()
         self.homeView.updateCheckLabels(user: self.user)
     }
     
     func createCheck(day: Int, hour: Int, minute: Int) {
+        let today = Date()
         var calendar = NSCalendar.current
         calendar.locale = Locale(identifier: Constants.Locales.ptBR)
         let check = Check(context: PersistenceService.context)
@@ -146,6 +137,7 @@ class HomeViewController: UIViewController {
     }
     
     func bookLunchNotification () {
+        let today = Date()
         let calendar = NSCalendar.current
         let content = UNMutableNotificationContent()
         content.title = Constants.Messages.LuchNotification.title
