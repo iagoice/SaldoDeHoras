@@ -16,16 +16,21 @@ class HomeView: UIView {
     let zero = CGFloat(Constants.zero)
     let two = CGFloat(Constants.two)
     
+    @IBOutlet weak var hoursLabel: UILabel!
+    @IBOutlet weak var optionsLabel: UILabel!
     @IBOutlet weak var checkButton: UIButton!
     @IBOutlet weak var checksScrollView: UIScrollView!
     @IBOutlet weak var checksView: UIView!
     @IBOutlet weak var animationConstraint: NSLayoutConstraint!
+    @IBOutlet weak var optionsButton: UIButton!
+    @IBOutlet weak var hoursButton: UIButton!
+    @IBOutlet weak var checksViewLabel: UILabel!
     
     func setup(user: User?) {
-        self.checkButton.roundButton(value: Constants.Values.Round.button)
+        self.backgroundColor = Constants.Colors.background
         self.updateCheckLabels(user: user)
         self.setupChecksView()
-        self.layoutIfNeeded()
+        self.setupButtons()
     }
     
     func updateCheckLabels (user: User?) {
@@ -57,16 +62,38 @@ class HomeView: UIView {
         let x = self.checksScrollView.frame.minX + Constants.Values.Sizes.checkLabelWidth * CGFloat(index) + (index == Constants.zero ? zero : Constants.Values.Sizes.checksAddDistance * CGFloat(index))
         label.frame = CGRect(x: x, y: self.checksScrollView.frame.minY - self.checksScrollView.frame.height/CGFloat(Constants.two), width: Constants.Values.Sizes.checkLabelWidth, height: self.checksScrollView.frame.height/two)
         label.textColor = UIColor.white
-        label.backgroundColor = UIColor.black
+        label.backgroundColor = Constants.Colors.checkLabel
         label.roundLabel(label.frame.size.height/two)
         label.textAlignment = .center
     }
 
+    // Setup ------------------------------------------------------------------
+    
+    func setupButtons() {
+        self.checkButton.frame.size = CGSize(width: Constants.Values.Sizes.checkButtonWidth, height: Constants.Values.Sizes.checkButtonHeight)
+        self.checkButton.roundButton(value: Constants.Values.Round.button)
+        self.checkButton.backgroundColor = Constants.Colors.buttonBackground
+        self.checkButton.setTitleColor(Constants.Colors.buttonTitle, for: .normal)
+        
+        self.optionsButton.roundButton(value: Constants.Values.Round.smallButton)
+        self.optionsButton.setImage(UIImage(named: Constants.Assets.options), for: .normal)
+        self.optionsButton.backgroundColor = Constants.Colors.buttonBackground
+        self.optionsButton.setTitleColor(Constants.Colors.buttonTitle, for: .normal)
+        self.optionsLabel.textColor = Constants.Colors.labelText
+        
+        self.hoursButton.roundButton(value: Constants.Values.Round.smallButton)
+        self.hoursButton.setImage(UIImage(named: Constants.Assets.hours), for: .normal)
+        self.hoursButton.backgroundColor = Constants.Colors.buttonBackground
+        self.hoursButton.setTitleColor(Constants.Colors.buttonTitle, for: .normal)
+        self.hoursLabel.textColor = Constants.Colors.labelText
+    }
+    
     func setupChecksView (){
         self.checksView.roundView(value: Constants.Values.Round.view)
         self.checksScrollView.alwaysBounceHorizontal = false
         self.checksScrollView.bounces = false
-        self.checksView.backgroundColor = UIColor.blue
+        self.checksView.backgroundColor = Constants.Colors.checksView
+        self.checksViewLabel.textColor = Constants.Colors.buttonTitle
         self.checksScrollView.layoutIfNeeded()
     }
     

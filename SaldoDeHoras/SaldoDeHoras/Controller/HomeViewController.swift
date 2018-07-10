@@ -29,6 +29,7 @@ class HomeViewController: UIViewController {
             safeUser.updateWorkedHours()
         }
         self.homeView.setup(user: self.user)
+        self.setupNavigationController()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -103,6 +104,10 @@ class HomeViewController: UIViewController {
     }
     
     //Auxiliary methods ------------------------
+    
+    func setupNavigationController() {
+        self.navigationController?.navigationBar.barTintColor = Constants.Colors.background
+    }
     
     func createChecks() {
         for day in days {

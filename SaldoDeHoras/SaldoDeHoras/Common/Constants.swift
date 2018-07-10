@@ -22,7 +22,8 @@ struct Constants {
         static let defaultComponentsCount = 1
         
         struct Round {
-            static let button: CGFloat = 50
+            static let button: CGFloat = 75
+            static let smallButton: CGFloat = 23
             static let view: CGFloat = 5
         }
         
@@ -45,16 +46,25 @@ struct Constants {
             static let hoursFrameWidth: CGFloat = 50
             static let distanceBetweenLabels: CGFloat = 20
             static let timePickerWidth: CGFloat = 60
-            static let optionsFontSize: CGFloat = 16
+            static let optionsFontSize: CGFloat = 20
             static let tableViewHeight: CGFloat = 70
-            static let fbLoginButtonCenterY: CGFloat = 50
+            
+            static let fbLoginButtonCenterY: CGFloat = 100
             static let fbShareButtonCenterY: CGFloat = 80
+            
             static let checkLabelWidth: CGFloat = 100
             static let checksAddDistance: CGFloat = 10
+            
+            static let checkButtonHeight = 200
+            static let checkButtonWidth = 200
+            
+            static let sideButtonsHeight = 200
+            static let sideButtonsWidth = 200
+            
         }
         
         struct AnimationDuration {
-            static let short = 0.5
+            static let short = 0.3
             static let long  = 1.0
         }
         
@@ -64,6 +74,21 @@ struct Constants {
             static let dayInSeconds = secondsInHour*24
             static let secondsInHour = 3600
         }
+    }
+    
+    struct Assets {
+        static let hours = "hours"
+        static let options = "options"
+    }
+    
+    struct Colors {
+        static let background = UIColor(red: 0/255, green: 179/255, blue: 234/255, alpha: 1.0)
+        static let buttonBackground = UIColor.white
+        static let buttonTitle = UIColor(red: 0/255, green: 179/255, blue: 234/255, alpha: 1.0)
+        static let checksView = UIColor.white
+        static let separator = UIColor(red: 0/255, green: 179/255, blue: 234/255, alpha: 1.0)
+        static let checkLabel = UIColor(red: 0/255, green: 100/255, blue: 234/255, alpha: 1.0)
+        static let labelText = UIColor.white
     }
     
     struct Messages {

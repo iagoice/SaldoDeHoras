@@ -13,11 +13,14 @@ import FBSDKLoginKit
 class LoginView: UIView {
     
     @IBOutlet weak var userTextField: UITextField!
+    @IBOutlet weak var loginButton: UIButton!
     
     func setup () {
         let fbLoginButton = FBSDKLoginButton()
         fbLoginButton.publishPermissions = []
         fbLoginButton.center = CGPoint(x: self.center.x, y: self.center.y + Constants.Values.Sizes.fbLoginButtonCenterY)
         self.addSubview(fbLoginButton)
+        self.backgroundColor = Constants.Colors.background
+        self.loginButton.roundButton(value: Constants.Values.Round.view)
     }
 }

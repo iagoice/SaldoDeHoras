@@ -17,10 +17,22 @@ class HoursViewController: UIViewController {
     override func viewDidLoad() {
         guard let user = self.user else { return }
         self.hoursView.setup(withUser: user)
+        self.setupBackButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = false
+    }
+    
+    func setupBackButton() {
+        let backButton = UIBarButtonItem(title: Constants.backButton, style: .plain, target: self, action: #selector(popViewController))
+        self.navigationItem.hidesBackButton = true
+        self.navigationItem.leftBarButtonItem = backButton
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+    }
+    
+    @objc func popViewController() {
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func payHours(_ sender: UIButton) {

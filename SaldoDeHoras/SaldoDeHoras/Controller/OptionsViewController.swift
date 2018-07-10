@@ -37,6 +37,7 @@ class OptionsViewController: UIViewController {
         let backButton = UIBarButtonItem(title: Constants.backButton, style: .plain, target: self, action: #selector(saveOptionsAndPopViewController))
         self.navigationItem.hidesBackButton = true
         self.navigationItem.leftBarButtonItem = backButton
+        self.navigationController?.navigationBar.tintColor = UIColor.white
     }
     
     @objc func saveOptionsAndPopViewController() {
@@ -166,8 +167,11 @@ class OptionsViewController: UIViewController {
     }
     
     func setupTableView() {
-        self.optionsTableView.separatorStyle = .none
+        self.optionsTableView.separatorStyle = .singleLine
+        self.optionsTableView.separatorColor = Constants.Colors.separator
         self.optionsTableView.isScrollEnabled = false
+        self.optionsTableView.backgroundColor = Constants.Colors.background
+        self.optionsTableView.allowsSelection = false
     }
 }
 
@@ -228,6 +232,7 @@ extension OptionsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Constants.Values.Sizes.tableViewHeight
     }
+    
 }
 
 extension OptionsViewController: UIPickerViewDataSource {
