@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		12C03DF4C7A2216A034B6837 /* Pods_SaldoDeHorasTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2512EEE28940FC8CA58DBA1F /* Pods_SaldoDeHorasTests.framework */; };
+		370996712107638600C78D16 /* TestCaseExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370996702107638600C78D16 /* TestCaseExtension.swift */; };
 		3738083220E26C10008FFDA9 /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3738083120E26C10008FFDA9 /* OptionsViewController.swift */; };
 		3738084020E26FBC008FFDA9 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3738083F20E26FBC008FFDA9 /* NavigationController.swift */; };
 		3738085B20E29EDC008FFDA9 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3738085920E29EDC008FFDA9 /* User+CoreDataClass.swift */; };
@@ -63,6 +64,7 @@
 
 /* Begin PBXFileReference section */
 		2512EEE28940FC8CA58DBA1F /* Pods_SaldoDeHorasTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SaldoDeHorasTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		370996702107638600C78D16 /* TestCaseExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCaseExtension.swift; sourceTree = "<group>"; };
 		3738083120E26C10008FFDA9 /* OptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
 		3738083F20E26FBC008FFDA9 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		3738085920E29EDC008FFDA9 /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "User+CoreDataClass.swift"; path = "../../User+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 		375550A120DAD616009DCA86 /* SaldoDeHorasUITests */ = {
 			isa = PBXGroup;
 			children = (
+				370996702107638600C78D16 /* TestCaseExtension.swift */,
 				375550A220DAD616009DCA86 /* SaldoDeHorasUITests.swift */,
 				375550A420DAD616009DCA86 /* Info.plist */,
 			);
@@ -563,6 +566,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				375550A320DAD616009DCA86 /* SaldoDeHorasUITests.swift in Sources */,
+				370996712107638600C78D16 /* TestCaseExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

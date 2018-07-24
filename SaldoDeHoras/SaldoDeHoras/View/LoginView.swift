@@ -19,8 +19,11 @@ class LoginView: UIView {
         let fbLoginButton = FBSDKLoginButton()
         fbLoginButton.publishPermissions = []
         fbLoginButton.center = CGPoint(x: self.center.x, y: self.center.y + Constants.Values.Sizes.fbLoginButtonCenterY)
+        fbLoginButton.accessibilityIdentifier = "fbLoginButton"
         self.addSubview(fbLoginButton)
         self.backgroundColor = Constants.Colors.background
         self.loginButton.roundButton(value: Constants.Values.Round.view)
+        self.loginButton.accessibilityIdentifier = "loginButton"
+        self.userTextField.accessibilityIdentifier = "loginTextField"
     }
 }

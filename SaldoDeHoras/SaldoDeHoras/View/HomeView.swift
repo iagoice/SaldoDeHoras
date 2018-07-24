@@ -70,10 +70,7 @@ class HomeView: UIView {
     // Setup ------------------------------------------------------------------
     
     func setupButtons() {
-        self.checkButton.frame.size = CGSize(width: Constants.Values.Sizes.checkButtonWidth, height: Constants.Values.Sizes.checkButtonHeight)
-        self.checkButton.roundButton(value: Constants.Values.Round.button)
-        self.checkButton.backgroundColor = Constants.Colors.buttonBackground
-        self.checkButton.setTitleColor(Constants.Colors.buttonTitle, for: .normal)
+        self.setupCheckInButton()
         
         self.optionsButton.roundButton(value: Constants.Values.Round.smallButton)
         self.optionsButton.setImage(UIImage(named: Constants.Assets.options), for: .normal)
@@ -86,6 +83,21 @@ class HomeView: UIView {
         self.hoursButton.backgroundColor = Constants.Colors.buttonBackground
         self.hoursButton.setTitleColor(Constants.Colors.buttonTitle, for: .normal)
         self.hoursLabel.textColor = Constants.Colors.labelText
+    }
+    
+    func setupCheckInButton() {
+        let frame = CGRect(x: checkButton.frame.minX, y: checkButton.frame.minY, width: checkButton.frame.width/2, height: 10)
+        let hourLabel = UILabel(frame: frame)
+        hourLabel.text = "Teste"
+        hourLabel.backgroundColor = UIColor.black
+        checkButton.addSubview(hourLabel)
+        
+        hourLabel.topAnchor.constraint(equalTo: checkButton.topAnchor, constant: 10)
+        
+        self.checkButton.frame.size = CGSize(width: Constants.Values.Sizes.checkButtonWidth, height: Constants.Values.Sizes.checkButtonHeight)
+        self.checkButton.roundButton(value: Constants.Values.Round.button)
+        self.checkButton.backgroundColor = Constants.Colors.buttonBackground
+        self.checkButton.setTitleColor(Constants.Colors.buttonTitle, for: .normal)
     }
     
     func setupChecksView (){
