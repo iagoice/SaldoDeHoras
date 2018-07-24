@@ -27,9 +27,5 @@ class SaldoDeHorasUITests: XCTestCase {
         waitElementExists(element: loginButton)
         waitElementExists(element: textField)
         waitElementExists(element: fbLoginButton)
-        
-        textField.tap()
-        textField.typeText("iago")
-        loginButton.tap()
     }
 }
