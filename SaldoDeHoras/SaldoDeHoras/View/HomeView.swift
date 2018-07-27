@@ -87,12 +87,15 @@ class HomeView: UIView {
     
     func setupCheckInButton() {
         let frame = CGRect(x: checkButton.frame.minX, y: checkButton.frame.minY, width: checkButton.frame.width/2, height: 10)
-        let hourLabel = UILabel(frame: frame)
+        let hourLabel = UILabel()
         hourLabel.text = "Teste"
         hourLabel.backgroundColor = UIColor.black
+        hourLabel.textColor = UIColor.white
+        hourLabel.sizeToFit()
+        hourLabel.roundLabel(hourLabel.frame.size.height/2)
         checkButton.addSubview(hourLabel)
-        
-        hourLabel.topAnchor.constraint(equalTo: checkButton.topAnchor, constant: 10)
+        hourLabel.centerXAnchor.constraint(equalTo: checkButton.centerXAnchor).isActive = true
+        hourLabel.centerYAnchor.constraint(equalTo: checkButton.centerYAnchor).isActive = true
         
         self.checkButton.frame.size = CGSize(width: Constants.Values.Sizes.checkButtonWidth, height: Constants.Values.Sizes.checkButtonHeight)
         self.checkButton.roundButton(value: Constants.Values.Round.button)
